@@ -1,0 +1,7 @@
+*.sdf
+*.sln
+*.suo
+Debug
+NeuralNet/Debug
+*.vcxproj
+*.vcxproj.filters
