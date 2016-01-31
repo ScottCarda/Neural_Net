@@ -52,6 +52,8 @@ int main()
 	// Writes weights to file
 	myNet.print_weights( "my_weights.wts" );
 
+	fout.close();
+
 	return 0;
 }
 

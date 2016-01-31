@@ -151,7 +151,10 @@ void Net::print_weights( string filename )
 		return;
 
 	// prints number of weight layers
-	fout << _layers.size() - 1 << " ";
+	fout << _layers.size() << " ";
+
+	// prints number of nodes in input layer
+	fout << _input_layer.size() << " ";
 
 	// prints number of nodes in each layer
 	for ( unsigned int i = 0; i < _layers.size(); i++ )
@@ -164,6 +167,8 @@ void Net::print_weights( string filename )
 	for ( unsigned int i = 0; i < _layers.size(); i++ )
 		for ( unsigned int j = 0; j < _layers[i].size(); j++ )
 			_layers[i][j].print_weights( fout );
+
+	fout << endl;
 
 	fout.close();
 

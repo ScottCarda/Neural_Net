@@ -51,7 +51,7 @@ private:
 	static double get_new_weight();
 	static double transform( double val );
 	static double transform_derivative( double val );
-	void clac_gradient();
+	void calc_gradient();
 	void send_weight_corrections();
 	void updateWeights();
 

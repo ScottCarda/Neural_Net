@@ -38,7 +38,7 @@ void Neuron::feed_forward()
 	return;
 }
 
-void Neuron::clac_gradient()
+void Neuron::calc_gradient()
 {
 	double sum = 0;
 	for ( unsigned i = 0; i < weight_corrections.size(); i++ )
@@ -88,7 +88,7 @@ void Neuron::updateWeights()
 
 void Neuron::back_prop()
 {
-	clac_gradient();
+	calc_gradient();
 	send_weight_corrections();
 	updateWeights();
 	return;
