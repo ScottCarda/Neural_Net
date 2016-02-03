@@ -29,7 +29,7 @@ void Neuron::feed_forward()
 		sum += _input[i].node->output * _input[i].weight;
 	}
 
-	sum += _bias;
+	//sum += _bias;
 
 	output = transform( sum );
 
@@ -64,14 +64,15 @@ void Neuron::send_weight_corrections()
 
 void Neuron::updateWeights()
 {
-	double new_delta =
-		_eta
-		* _gradient
-		+
-		_alpha
-		* _delta_bias;
-	_delta_bias = new_delta;
-	_bias += new_delta;
+	double new_delta;
+	//double new_delta =
+	//	_eta
+	//	* _gradient
+	//	+
+	//	_alpha
+	//	* _delta_bias;
+	//_delta_bias = new_delta;
+	//_bias += new_delta;
 	for ( unsigned i = 0; i < _input.size(); i++ )
 	{
 		new_delta =
@@ -84,6 +85,7 @@ void Neuron::updateWeights()
 		_input[i].delta_weight = new_delta;
 		_input[i].weight += new_delta;
 	}
+	return;
 }
 
 void Neuron::back_prop()
@@ -121,8 +123,8 @@ void Neuron::set_alpha( double alpha )
 void Neuron::reset()
 {
 	output = 0;
-	_bias = get_new_weight();
-	_delta_bias = 0;
+	//_bias = get_new_weight();
+	//_delta_bias = 0;
 	_gradient = 0;
 
 	for ( unsigned i = 0; i < _input.size(); i++ )
@@ -136,12 +138,12 @@ void Neuron::reset()
 
 void Neuron::print_weights( ofstream &fout )
 {
-	// prints out the weights for the neuron
+	// Prints out the weights for the neuron
 	for ( unsigned int i = 0; i < _input.size(); i++ )
 		fout << _input[i].weight << " ";
 
-	// prints out the bias weight
-	fout << _bias << " ";
+	// Prints out the bias weight
+	//fout << _bias << " ";
 
 	return;
 }

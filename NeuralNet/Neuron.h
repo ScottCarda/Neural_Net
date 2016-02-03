@@ -27,8 +27,8 @@ class Neuron : public Node
 public:
 	Neuron( double eta, double alpha ) :
 		Node(),
-		_bias( get_new_weight() ),
-		_delta_bias( 0 ),
+		//_bias( get_new_weight() ),
+		//_delta_bias( 0 ),
 		_gradient( 0 ),
 		_eta( eta ),
 		_alpha( alpha )
@@ -55,8 +55,8 @@ private:
 	void send_weight_corrections();
 	void updateWeights();
 
-	double _bias;
-	double _delta_bias;
+	//double _bias;
+	//double _delta_bias;
 	vector<Connection> _input;
 
 	double _gradient;
