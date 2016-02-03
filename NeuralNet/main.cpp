@@ -6,6 +6,7 @@
 #include <fstream>
 #include "TrainingData.h"
 #include "Net.h"
+#include "Parameters.h"
 using namespace std;
 
 const double ETA = 0.3;
@@ -13,8 +14,20 @@ const double ALPHA = 0.5;
 
 void show_vector_vals( ofstream &fout, string label, vector<double> &v );
 
-int main()
+int main(int argc, char* argv[])
 {
+	if (argc == 2)
+		Parameters params = Parameters(argv[1]);
+	else
+		cout << "You're doing it wrong!" << endl;
+
+	return 0;
+
+}
+
+int not_not_main()
+{
+	
 	TrainingData training_data( "xor.txt" );
 
 	vector<unsigned> topology;

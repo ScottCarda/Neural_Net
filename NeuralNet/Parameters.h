@@ -9,7 +9,8 @@ using namespace std;
 class Parameters
 {
 public:
-	Parameters( const string paramfile);
+	Parameters( const string ParamFileName);
+	string ParseLine(ifstream &File);
 	~Parameters();
 
 	string GetParamFileName();

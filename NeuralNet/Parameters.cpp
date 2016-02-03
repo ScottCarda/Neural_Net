@@ -1,17 +1,78 @@
 #include "Parameters.h"
 
-Parameters::Parameters( const string paramfile)
+Parameters::Parameters( const string ParamFileName)
 {
-	_paramfilename = paramfile;
-	ifstream _data_file;
-	_data_file.open(paramfile.c_str());
+	_paramfilename = ParamFileName;
+	ifstream _paramfile;
+	_paramfile.open(ParamFileName.c_str());
+
+	string param;
+	
+	while (param.empty()) param = ParseLine(_paramfile);
+	_weightsfilename = param;
+	param.clear();
+	while (param.empty()) param = ParseLine(_paramfile);
+	_epochs = stoi(param);
+	param.clear();
+	while (param.empty()) param = ParseLine(_paramfile);
+	_eta = stod(param);
+	param.clear();
+	while (param.empty()) param = ParseLine(_paramfile);
+	_alpha = stod(param);
+	param.clear();
+	while (param.empty()) param = ParseLine(_paramfile);
+	_errorthresh = stod(param);
+	param.clear();
+	while (param.empty()) param = ParseLine(_paramfile);
+	_numlayers = stoi(param);
+	param.clear();
+	for (int i = 0; i < (_numlayers+1); i++)
+	{
+		_paramfile >> param;
+		_nodesperlayer.push_back(stoi(param));
+	}
+	param.clear();
+	while (param.empty()) param = ParseLine(_paramfile);
+	_traintestfilename = param;
+	param.clear();
+	while (param.empty()) param = ParseLine(_paramfile);
+	_numyearsburnedacreage = stoi(param);
+	param.clear();
+	while (param.empty()) param = ParseLine(_paramfile);
+	_nummonthspdsi = stoi(param);
+	param.clear();
+	while (param.empty()) param = ParseLine(_paramfile);
+	_endmonthcurryear = stoi(param);
+	param.clear();
+	while (param.empty()) param = ParseLine(_paramfile);
+	_numoutputclasses = stoi(param);
+	param.clear();
+	while (param.empty()) param = ParseLine(_paramfile);	
+	for (int i = 0; i < (_numoutputclasses - 1); i++)
+	{
+		_fireseveritycutoffs.push_back(stoi(param));
+		_paramfile >> param;
+	}
+
+
+	_paramfile.close();
+
+}
+
+string Parameters::ParseLine(ifstream &File)
+{
+	string line;
+	string parsed;
+	getline(File, line);
+	parsed = line.substr(0, line.find_first_of("#\n\t\r"));
+	return parsed;
 
 
 
-	_data_file.close();
 
 
 }
+
 
 Parameters::~Parameters()
 {

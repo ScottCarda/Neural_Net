@@ -3,7 +3,7 @@ Pass: 1
 Inputs: 1 0 
 Outputs: 0.999879 
 Targets: 1 
-Net recent average error: 9.68567e-005
+Net recent average error: 9.68567e-05
 
 Pass: 2
 Inputs: 0 0 
@@ -11839,7 +11839,7 @@ Net recent average error: 0.197989
 
 Pass: 1974
 Inputs: 0 0 
-Outputs: 7.78766e-005 
+Outputs: 7.78766e-05 
 Targets: 0 
 Net recent average error: 0.03966
 
