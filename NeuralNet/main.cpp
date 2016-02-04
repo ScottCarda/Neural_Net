@@ -58,7 +58,7 @@ int not_not_main()
 		myNet.back_prop( expected_vals );
 
 		fout << "Net recent average error: "
-			<< myNet.get_recent_average_error() << endl;
+			<< myNet.get_ave_error() << endl;
 	}
 	fout << endl << "Done" << endl;
 

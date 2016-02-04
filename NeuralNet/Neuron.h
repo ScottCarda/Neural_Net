@@ -1,34 +1,70 @@
+/*
+                    ***** Neuron.h *****
+
+Contains the definitions for the Connection structure, the Node class, and the
+Neuron class, which inherits from the Node class. Non-neuron node objects are
+lightweight objects that just provide an output without taking any inputs.
+Non-neuron nodes are used in a neural net for the input nodes.
+
+CSC547 Artificial Intelligence - Spring 2016
+
+Author: Hannah Aker, Scott Carda, Cassidy Vollmer
+*/
+
+#ifndef __NEURON__H__
+#define __NEURON__H__
+
+/******************************************************************************/
+/*                                Include Files                               */
+/******************************************************************************/
+
 #include <cmath>
 #include <vector>
 #include <fstream>
-
 using namespace std;
 
-class Node
-{
-public:
-	Node() : output( 0 ) {};
-	//Node( double val ) : output( val ) {};
-	~Node() {};
-
-	double output;
-	vector<double> weight_corrections;
-};
+/******************************************************************************/
+/*                            Connection Definition                           */
+/******************************************************************************/
 
 struct Connection
 {
 	double weight;
+	// The amount the weight has changed in the last iteration
 	double delta_weight;
+	// Pointer to the node, whose output will be multiplied by the weight
 	Node* node;
 };
+
+/******************************************************************************/
+/*                               Node Definition                              */
+/******************************************************************************/
+
+class Node
+{
+public:
+	double output;	// The value that the node outputs
+
+	// The error values used to update the node's weights
+	// Included in the node class to allow
+	// for generalized behavior in the neuron class
+	vector<double> weight_corrections;
+
+	// Constructor and Destructor
+	Node() : output( 0 ) {};
+	~Node() {};
+};
+
+/******************************************************************************/
+/*                              Neuron Definition                             */
+/******************************************************************************/
 
 class Neuron : public Node
 {
 public:
+	// Constructor and Destructor
 	Neuron( double eta, double alpha ) :
 		Node(),
-		//_bias( get_new_weight() ),
-		//_delta_bias( 0 ),
 		_gradient( 0 ),
 		_eta( eta ),
 		_alpha( alpha )
@@ -38,14 +74,12 @@ public:
 	void add_connection( Node &node );
 	void feed_forward();
 	void back_prop();
-
+	void reset();
+	void print_weights( ofstream &fout );
 	double get_eta();
 	void set_eta( double eta );
 	double get_alpha();
 	void set_alpha( double alpha );
-
-	void reset();
-	void print_weights( ofstream &fout );
 
 private:
 	static double get_new_weight();
@@ -55,11 +89,13 @@ private:
 	void send_weight_corrections();
 	void updateWeights();
 
-	//double _bias;
-	//double _delta_bias;
+	// The vector of inputs to the neuron, containing the
+	// raw input, weights, and last changes in weights
 	vector<Connection> _input;
 
-	double _gradient;
-	double _eta;
-	double _alpha;
+	double _gradient;	// Error gradient for the neuron
+	double _eta;	// The learning rate for this neuron
+	double _alpha;	// The momentum rate for this neuron
 };
+
+#endif

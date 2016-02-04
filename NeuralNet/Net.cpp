@@ -5,8 +5,8 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 	_eta(eta),
 	_alpha( alpha ),
 	_error( 0.0 ),
-	_recent_average_error( 0.0 ),
-	_recent_average_smoothing_factor( 0.25 )
+	_ave_error( 0.0 ),
+	_error_smoothing_factor( 0.25 )
 {
 	for ( unsigned i = 0; i < topology[0]; i++ )
 	{
@@ -98,9 +98,9 @@ void Net::back_prop( const vector<double> &expected_outputs )
 	_error = sqrt( _error );
 
 	// Keeps track of recent average error
-	_recent_average_error =
-		( _recent_average_error * _recent_average_smoothing_factor + _error )
-		/ ( _recent_average_smoothing_factor + 1.0 );
+	_ave_error =
+		( _ave_error * _error_smoothing_factor + _error )
+		/ ( _error_smoothing_factor + 1.0 );
 
 	// Loop through each neuron and call their back_prop
 	// Skip output layer, input layer, and bias neurons
@@ -123,9 +123,9 @@ void Net::get_output( vector<double> &outputs )
 	return;
 }
 
-double Net::get_recent_average_error()
+double Net::get_ave_error()
 {
-	return _recent_average_error;
+	return _ave_error;
 }
 
 double Net::get_eta()
