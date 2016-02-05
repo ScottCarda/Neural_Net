@@ -24,11 +24,7 @@ int main(int argc, char* argv[])
 	}
 	else
 		cout << "You're doing it wrong!" << endl;
-
-	
-
-	return 0;
-
+return 0;
 }
 
 //int not_not_main()

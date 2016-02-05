@@ -1,6 +1,8 @@
 *.sdf
 *.sln
 *.suo
+*.wts
+*.prm
 Debug
 NeuralNet/Debug
 *.vcxproj
