@@ -5,17 +5,25 @@
 
 using namespace std;
 
+struct TrainingTestingSet
+{
+	int year;
+	int actualburnedacres;
+	vector<double> inputs;
+};
+
 class TrainingData
 {
 public:
-	TrainingData( const string filename );
+	TrainingData( const string TrainTestDataFileName, const int NumYearsBurnedAcerage, 
+		const int NumMonthsPDSI, const int EndMonthCurrYear );
 	~TrainingData();
-	bool is_eof();
 
-	unsigned get_topology( vector<unsigned> &topology );
-	unsigned get_next_inputs( vector<double> &input_vals );
-	unsigned get_expected_outputs( vector<double> &expected_outputs );
+	vector<struct TrainingTestingSet> GetAllData();
+	void ShuffleData();
 
 private:
-	ifstream _data_file;
+	vector<struct TrainingTestingSet> _data;
+
+	
 };
