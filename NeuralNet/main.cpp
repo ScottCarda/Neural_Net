@@ -17,12 +17,15 @@ void show_vector_vals( ofstream &fout, string label, vector<double> &v );
 int main(int argc, char* argv[])
 {
 	if (argc == 2)
+	{
 		Parameters params = Parameters(argv[1]);
+		TrainingData data = TrainingData(params.GetTrainTestFileName(), params.GetNumYearsBurnedAcreage(),
+			params.GetNumMonthsPDSI(), params.GetEndMonthCurrYear());
+		data.ShuffleData();
+	}
 	else
 		cout << "You're doing it wrong!" << endl;
-
-	return 0;
-
+return 0;
 }
 
 int not_not_main()
@@ -69,6 +72,51 @@ int not_not_main()
 
 	return 0;
 }
+
+//int not_not_main()
+//{
+//	
+//	TrainingData training_data( "xor.txt" );
+//
+//	vector<unsigned> topology;
+//	training_data.get_topology( topology );
+//	Net myNet( topology, ETA, ALPHA );
+//
+//	vector<double> input_vals, expected_vals, output_vals;
+//	int training_pass = 0;
+//
+//	ofstream fout;
+//	fout.open( "out.txt", ofstream::out );
+//	if ( !fout )
+//		return -1;
+//
+//	while ( !training_data.is_eof() )
+//	{
+//		training_pass++;
+//		fout << endl << "Pass: " << training_pass << endl;
+//
+//		if ( training_data.get_next_inputs( input_vals ) != topology[0] )
+//			break;
+//		show_vector_vals( fout, "Inputs:", input_vals );
+//		myNet.feed_forward( input_vals );
+//		myNet.get_output( output_vals );
+//		show_vector_vals( fout, "Outputs:", output_vals );
+//		training_data.get_expected_outputs( expected_vals );
+//		show_vector_vals( fout, "Targets:", expected_vals );
+//		myNet.back_prop( expected_vals );
+//
+//		fout << "Net recent average error: "
+//			<< myNet.get_recent_average_error() << endl;
+//	}
+//	fout << endl << "Done" << endl;
+//
+//	// Writes weights to file
+//	myNet.print_weights( "my_weights.wts" );
+//
+//	fout.close();
+//
+//	return 0;
+//}
 
 void show_vector_vals( ofstream &fout, string label, vector<double> &v )
 {

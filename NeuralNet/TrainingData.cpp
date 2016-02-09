@@ -1,76 +1,99 @@
 #include "TrainingData.h"
 
-TrainingData::TrainingData( const string filename )
+TrainingData::TrainingData(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
+	const int NumMonthsPDSI, const int EndMonthCurrYear)
 {
-	_data_file.open( filename.c_str() );
+	
+	ifstream _traintestfile;
+	_traintestfile.open(TrainTestDataFileName.c_str());
+
+	string line;
+	//Get header lines, don't bother parsing
+	getline(_traintestfile, line);
+	getline(_traintestfile, line);
+
+	vector<vector<double>> years;
+	vector<double> year;
+
+	while (!_traintestfile.eof())
+	{
+		year.clear();
+		for (int j = 0; j < 13; j++)
+		{
+
+			getline(_traintestfile, line, ',');
+			if (!line.empty())
+			year.push_back(stod(line));
+
+		}
+
+		getline(_traintestfile, line);
+		if( !line.empty())
+		year.push_back(stod(line));
+		if(!year.empty())
+		years.push_back(year);
+
+	}
+
+	_traintestfile.close();
+
+	double burnedacresmax = 0, burnedacresmin = 0;
+	double pdsimax = 0, pdsimin = 0;
+	for (int i = 0; i < years.size(); i++)
+	{
+		if (years[i][1] > burnedacresmax)
+			burnedacresmax = years[i][1];
+		if (years[i][1] < burnedacresmin)
+			burnedacresmin = years[i][1];
+			for (int j = 2; j < 14; j++)
+			{
+				if (years[i][j] > pdsimax)
+					pdsimax = years[i][j];
+				if (years[i][j] < pdsimin)
+					pdsimin = years[i][j];
+			}
+	}
+
+	int startyear;
+	if (NumMonthsPDSI / 12 > NumYearsBurnedAcerage)
+		startyear = NumMonthsPDSI / 12;
+	else
+		startyear = NumYearsBurnedAcerage;
+
+	for (int i = startyear ; i < years.size(); i++)
+	{
+		TrainingTestingSet set;
+		set.year = years[i][0];
+		set.actualburnedacres = years[i][1];
+		for (int j = 0; j < NumYearsBurnedAcerage; j++)
+			set.inputs.push_back((years[i - (j + 1)][1] - burnedacresmin) / (burnedacresmax - burnedacresmin));
+		int k = EndMonthCurrYear + 2;
+		int l = i;
+		for (int j = 0; j < NumMonthsPDSI; j++, k--)
+		{
+			set.inputs.push_back((years[l][k] - pdsimin) / (pdsimax - pdsimin));
+				if (k <= 2)
+				{
+					k = 13;
+					l = l - 1;
+				}
+		}
+_data.push_back(set);
+	}
+
+	
 }
 
 TrainingData::~TrainingData()
 {
-	_data_file.close();
+	
 }
 
-bool TrainingData::is_eof()
+vector<struct TrainingTestingSet> TrainingData::GetAllData()
 {
-	return _data_file.eof();
+	return _data;
 }
-
-unsigned TrainingData::get_topology( vector<unsigned> &topology )
+void TrainingData::ShuffleData()
 {
-	topology.clear();
-
-	string line;
-	string label;
-
-	getline( _data_file, line );
-	stringstream ss( line );
-	ss >> label;
-	if ( is_eof() || label.compare( "topology:" ) != 0 )
-		abort();
-
-	unsigned n;
-	while ( ss >> n )
-		topology.push_back( n );
-
-	return topology.size();
-}
-
-unsigned TrainingData::get_next_inputs( vector<double> &input_vals )
-{
-	input_vals.clear();
-
-	string line;
-	string label;
-
-	getline( _data_file, line );
-	stringstream ss( line );
-	ss >> label;
-	if ( label.compare( "in:" ) == 0 )
-	{
-		unsigned n;
-		while ( ss >> n )
-			input_vals.push_back( n );
-	}
-
-	return input_vals.size();
-}
-
-unsigned TrainingData::get_expected_outputs( vector<double> &expected_outputs )
-{
-	expected_outputs.clear();
-
-	string line;
-	string label;
-
-	getline( _data_file, line );
-	stringstream ss( line );
-	ss >> label;
-	if ( label.compare( "out:" ) == 0 )
-	{
-		unsigned n;
-		while ( ss >> n )
-			expected_outputs.push_back( n );
-	}
-
-	return expected_outputs.size();
+	random_shuffle(_data.begin(), _data.end());
 }

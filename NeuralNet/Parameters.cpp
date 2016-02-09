@@ -67,10 +67,6 @@ string Parameters::ParseLine(ifstream &File)
 	parsed = line.substr(0, line.find_first_of("#\n\t\r"));
 	return parsed;
 
-
-
-
-
 }
 
 
