@@ -8,5 +8,6 @@ NeuralNet/Debug
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+*.VC.opendb
 NeuralNet/ipch
 

@@ -23,18 +23,6 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 #include <fstream>
 using namespace std;
 
-/******************************************************************************/
-/*                            Connection Definition                           */
-/******************************************************************************/
-
-struct Connection
-{
-	double weight;
-	// The amount the weight has changed in the last iteration
-	double delta_weight;
-	// Pointer to the node, whose output will be multiplied by the weight
-	Node* node;
-};
 
 /******************************************************************************/
 /*                               Node Definition                              */
@@ -53,6 +41,19 @@ public:
 	// Constructor and Destructor
 	Node() : output( 0 ) {};
 	~Node() {};
+};
+
+/******************************************************************************/
+/*                            Connection Definition                           */
+/******************************************************************************/
+
+struct Connection
+{
+	double weight;
+	// The amount the weight has changed in the last iteration
+	double delta_weight;
+	// Pointer to the node, whose output will be multiplied by the weight
+	Node* node;
 };
 
 /******************************************************************************/

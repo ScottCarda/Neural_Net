@@ -21,6 +21,7 @@ int main(int argc, char* argv[])
 		Parameters params = Parameters(argv[1]);
 		TrainingData data = TrainingData(params.GetTrainTestFileName(), params.GetNumYearsBurnedAcreage(),
 			params.GetNumMonthsPDSI(), params.GetEndMonthCurrYear());
+		data.ShuffleData();
 	}
 	else
 		cout << "You're doing it wrong!" << endl;

@@ -95,5 +95,5 @@ vector<struct TrainingTestingSet> TrainingData::GetAllData()
 }
 void TrainingData::ShuffleData()
 {
-
+	random_shuffle(_data.begin(), _data.end());
 }
