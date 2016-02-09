@@ -1,13 +1,31 @@
+/*
+                    ***** Net.cpp *****
+
+This file contains the definitions for the net class's member functions. See
+the Net.h file for a description of the class.
+
+CSC547 Artificial Intelligence - Spring 2016
+
+Author: Hannah Aker, Scott Carda, Cassidy Vollmer
+*/
+
+// include file
 #include "Net.h"
 
+/******************************************************************************/
+/*                         Net Class Member Functions                         */
+/******************************************************************************/
+
+// Constructor for neural net class
 Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 	:
-	_eta(eta),
+	_eta( eta ),
 	_alpha( alpha ),
 	_error( 0.0 ),
-	_ave_error( 0.0 ),
+	_avg_error( 0.0 ),
 	_error_smoothing_factor( 0.25 )
 {
+	// Creates the input layer with the first number from topology
 	for ( unsigned i = 0; i < topology[0]; i++ )
 	{
 		_input_layer.push_back( Node() );
@@ -18,14 +36,21 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 	bias.output = 1;
 	_input_layer.push_back( bias );
 
+	// Creates the hidden and output layers with the rest of topology
 	for ( unsigned i = 1; i < topology.size(); i++ )
 	{
-		Layer layer;
+		Layer layer;	// The layer to be added
+		// Adds a number of neurons to the layer based on topology
 		for ( unsigned j = 0; j < topology[i]; j++ )
 		{
+			// Create a new neuron with the net's eta and alpha values
 			Neuron neuron( _eta, _alpha );
+
+			// Adds a connection to the neuron for
+			// each neuron in the preceding layer
 			if ( i == 1 )
 			{
+				// Special case for the first layer after the input layer
 				for ( unsigned k = 0; k < _input_layer.size(); k++ )
 				{
 					neuron.add_connection( _input_layer[k] );
@@ -38,6 +63,7 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 					neuron.add_connection( _layers.back()[k] );
 				}
 			}
+			// Add neuron to layer
 			layer.push_back( neuron );
 
 		}
@@ -46,10 +72,13 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 		bias.output = 1;
 		layer.push_back( bias );
 
+		// Add layer to net
 		_layers.push_back( layer );
 	}
 }
 
+// Sets the output values of the output layer given an
+// input vector based on the net's weighted connections
 void Net::feed_forward( const vector<double> &inputs )
 {
 	// Set the inputs for each input node ( not bias )
@@ -77,6 +106,8 @@ void Net::feed_forward( const vector<double> &inputs )
 	return;
 }
 
+// Trains the net's weighted connections by comparing
+// the output values with the expected output
 void Net::back_prop( const vector<double> &expected_outputs )
 {
 	_error = 0.0;
@@ -98,8 +129,8 @@ void Net::back_prop( const vector<double> &expected_outputs )
 	_error = sqrt( _error );
 
 	// Keeps track of recent average error
-	_ave_error =
-		( _ave_error * _error_smoothing_factor + _error )
+	_avg_error =
+		( _avg_error * _error_smoothing_factor + _error )
 		/ ( _error_smoothing_factor + 1.0 );
 
 	// Loop through each neuron and call their back_prop
@@ -111,6 +142,7 @@ void Net::back_prop( const vector<double> &expected_outputs )
 	return;
 }
 
+// Fills the vector argument with the output values of the net
 void Net::get_output( vector<double> &outputs )
 {
 	Layer &output_layer = _layers.back();	// Reference to the last layer
@@ -123,20 +155,24 @@ void Net::get_output( vector<double> &outputs )
 	return;
 }
 
-double Net::get_ave_error()
+// Getter for _avg_error
+double Net::get_avg_error()
 {
-	return _ave_error;
+	return _avg_error;
 }
 
+// Getter for _eta
 double Net::get_eta()
 {
 	return _eta;
 }
 
+// Setter for _eta
 void Net::set_eta( double eta )
 {
 	_eta = eta;
 
+	// Set the _eta for each neuron in the net
 	for ( unsigned i = 0; i < _layers.size(); i++ )
 		for ( unsigned j = 0; j < _layers[i].size(); j++ )
 			_layers[i][j].set_eta( eta );
@@ -144,15 +180,18 @@ void Net::set_eta( double eta )
 	return;
 }
 
+// Getter for _alpha
 double Net::get_alpha()
 {
 	return _alpha;
 }
 
+// Setter for _alpha
 void Net::set_alpha( double alpha )
 {
 	_alpha = alpha;
 
+	// Set the _alpha for each neuron in the net
 	for ( unsigned i = 0; i < _layers.size(); i++ )
 		for ( unsigned j = 0; j < _layers[i].size(); j++ )
 			_layers[i][j].set_alpha( alpha );
@@ -160,6 +199,7 @@ void Net::set_alpha( double alpha )
 	return;
 }
 
+// Sets the state of the neuron a new neuron
 void Net::reset()
 {
 	// Set the output for each input node ( not bias )
@@ -173,7 +213,6 @@ void Net::reset()
 	// Also, clear the weight_corrections vector for the bias neuron
 	_input_layer.back().weight_corrections.clear();
 
-
 	// Loop through each neuron and call their reset
 	// Skip bias neurons
 	for ( unsigned i = 0; i < _layers.size(); i++ )
@@ -183,8 +222,10 @@ void Net::reset()
 	return;
 }
 
+// Creates a file with the given filename containing the 
 void Net::print_weights( string filename )
 {
+	// The file stream
 	ofstream fout;
 	fout.open( filename );
 

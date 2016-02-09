@@ -42,7 +42,7 @@ public:
 	void feed_forward( const vector<double> &inputs );
 	void back_prop( const vector<double> &expected_outputs );
 	void get_output( vector<double> &outputs );
-	double get_ave_error();
+	double get_avg_error();
 	double get_eta();
 	void set_eta( double eta );
 	double get_alpha();
@@ -60,8 +60,8 @@ private:
 	double _alpha;	// Network momentum
 
 	double _error;	// Difference between network output and expected output
-	double _ave_error;	// Average error
-	// Smoothing factor used in calculating ave_error
+	double _avg_error;	// Average error
+	// Smoothing factor used in calculating avg_error
 	double _error_smoothing_factor;
 };
 

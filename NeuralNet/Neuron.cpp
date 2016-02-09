@@ -1,4 +1,20 @@
+/*
+                    ***** Neuron.cpp *****
+
+This file contains the definitions for the neuron class's member functions. See
+the Neuron.h file for a description of the class.
+
+CSC547 Artificial Intelligence - Spring 2016
+
+Author: Hannah Aker, Scott Carda, Cassidy Vollmer
+*/
+
+// include file
 #include "Neuron.h"
+
+/******************************************************************************/
+/*                       Neuron Class Member Functions                        */
+/******************************************************************************/
 
 // Provides weight values for new connections
 double Neuron::get_new_weight()
