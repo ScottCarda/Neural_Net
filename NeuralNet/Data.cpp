@@ -1,6 +1,6 @@
-#include "TrainingData.h"
+#include "Data.h"
 
-TrainingData::TrainingData(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
+Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 	const int NumMonthsPDSI, const int EndMonthCurrYear)
 {
 	
@@ -84,16 +84,16 @@ _data.push_back(set);
 	
 }
 
-TrainingData::~TrainingData()
+Data::~Data()
 {
 	
 }
 
-vector<struct TrainingTestingSet> TrainingData::GetAllData()
+vector<struct TrainingTestingSet> Data::GetAllData()
 {
 	return _data;
 }
-void TrainingData::ShuffleData()
+void Data::ShuffleData()
 {
 	random_shuffle(_data.begin(), _data.end());
 }

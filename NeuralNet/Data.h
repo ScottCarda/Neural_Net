@@ -13,12 +13,12 @@ struct TrainingTestingSet
 	vector<double> inputs;
 };
 
-class TrainingData
+class Data
 {
 public:
-	TrainingData( const string TrainTestDataFileName, const int NumYearsBurnedAcerage, 
+	Data( const string TrainTestDataFileName, const int NumYearsBurnedAcerage, 
 		const int NumMonthsPDSI, const int EndMonthCurrYear );
-	~TrainingData();
+	~Data();
 
 	vector<struct TrainingTestingSet> GetAllData();
 	void ShuffleData();
