@@ -137,7 +137,7 @@ void Net::back_prop( const vector<double> &expected_outputs )
 		/ ( _error_smoothing_factor + 1.0 );
 
 	// Loop through each neuron and call their back_prop
-	// Skip output layer, input layer, and bias neurons
+	// Skip input layer, and bias neurons
 	for ( int i = _layers.size() - 1; i >= 0; i-- )
 		for ( unsigned j = 0; j < _layers[i].size() - 1; j++ )
 			_layers[i][j].back_prop();

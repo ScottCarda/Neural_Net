@@ -129,6 +129,9 @@ void training( Parameters &params, vector<struct TrainingTestingSet> &trainingSe
 			ann.feed_forward( trainingSet[i].inputs );
 			ann.back_prop( trainingSet[i].class_outputs );
 		}
+
+		if ( j % 10 == 0 )
+			cout << "Epoch\t" << j << ": RMS error = " << ann.get_avg_error()
 	}
 
 	// Save net's weights to the weight file
