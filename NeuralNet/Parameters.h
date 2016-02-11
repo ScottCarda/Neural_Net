@@ -1,3 +1,18 @@
+/*
+***** Parameters.h *****
+
+Contains the definitions for the Parameters class. The Parameters class contains
+all the information included in the Parameter.prm file. The variables in this class
+are read only, and can only be accessed via Get methods. 
+
+CSC547 Artificial Intelligence - Spring 2016
+
+Author: Hannah Aker, Scott Carda, Cassidy Vollmer
+*/
+
+/******************************************************************************/
+/*                                Include Files                               */
+/******************************************************************************/
 #pragma once
 #include <string>
 #include <vector>
@@ -6,10 +21,13 @@
 
 using namespace std;
 
+/******************************************************************************/
+/*                          Parameters Class Definition                       */
+/******************************************************************************/
 class Parameters
 {
 public:
-	Parameters( const string ParamFileName);
+	Parameters(const string ParamFileName);
 	string ParseLine(ifstream &File);
 	~Parameters();
 
@@ -43,8 +61,6 @@ private:
 	int _endmonthcurryear;
 	int _numoutputclasses;
 	vector<int> _fireseveritycutoffs;
-
-
 
 };
 

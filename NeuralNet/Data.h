@@ -16,8 +16,8 @@ struct TrainingTestingSet
 class Data
 {
 public:
-	Data( const string TrainTestDataFileName, const int NumYearsBurnedAcerage, 
-		const int NumMonthsPDSI, const int EndMonthCurrYear );
+	Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
+		const int NumMonthsPDSI, const int EndMonthCurrYear);
 	~Data();
 
 	vector<struct TrainingTestingSet> GetAllData();
@@ -25,6 +25,4 @@ public:
 
 private:
 	vector<struct TrainingTestingSet> _data;
-
-	
 };

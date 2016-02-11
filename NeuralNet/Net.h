@@ -1,5 +1,5 @@
 /*
-                    ***** Net.h *****
+					***** Net.h *****
 
 Contains the definitions for the Net class and the Layer typedef. Net's contain
 a vector of nodes that represent the input layer of the network and a vector of
@@ -36,20 +36,20 @@ class Net
 {
 public:
 	// Constructor and Destructor
-	Net( const vector<unsigned> &topology, double eta, double alpha );
+	Net(const vector<unsigned> &topology, double eta, double alpha);
 	~Net() {};
 
-	void feed_forward( const vector<double> &inputs );
-	void back_prop( const vector<double> &expected_outputs );
-	void get_output( vector<double> &outputs );
+	void feed_forward(const vector<double> &inputs);
+	void back_prop(const vector<double> &expected_outputs);
+	void get_output(vector<double> &outputs);
 	double get_avg_error();
 	double get_eta();
-	void set_eta( double eta );
+	void set_eta(double eta);
 	double get_alpha();
-	void set_alpha( double alpha );
+	void set_alpha(double alpha);
 	void reset();
 
-	void print_weights( string filename );
+	void print_weights(string filename);
 
 private:
 	vector<Node> _input_layer;	// The inputs into the network
