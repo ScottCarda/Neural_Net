@@ -1,3 +1,18 @@
+/*
+***** Data.h *****
+
+Contains the definitions for the Data class. The Data class will read in all the
+testing and training data when an instance of the Data class is constructed. If the
+data file can't be opened, the program will inform the user and exit.
+
+CSC547 Artificial Intelligence - Spring 2016
+
+Author: Hannah Aker, Scott Carda, Cassidy Vollmer
+*/
+
+/******************************************************************************/
+/*                                Include Files                               */
+/******************************************************************************/
 #include <string>
 #include <vector>
 #include <sstream>
@@ -7,7 +22,10 @@
 
 using namespace std;
 
-struct TrainingTestingSet
+/******************************************************************************/
+/*                            Training Definition                           */
+/******************************************************************************/
+struct YearData
 {
 	int year;
 	int actualburnedacres;
@@ -22,9 +40,8 @@ public:
 		const int NumMonthsPDSI, const int EndMonthCurrYear, vector<int> &FireSeverityCutoffs );
 	~Data();
 
-	vector<struct TrainingTestingSet> GetAllData();
-	void ShuffleData();
+	vector<struct YearData> GetAllData();
 
 private:
-	vector<struct TrainingTestingSet> _data;
+	vector<struct YearData> _data;
 };

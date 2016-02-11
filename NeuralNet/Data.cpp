@@ -63,7 +63,7 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 
 		for (int i = startyear; i < years.size(); i++)
 		{
-			TrainingTestingSet set;
+			YearData set;
 			set.year = years[i][0];
 			set.actualburnedacres = years[i][1];
 
@@ -109,11 +109,8 @@ Data::~Data()
 
 }
 
-vector<struct TrainingTestingSet> Data::GetAllData()
+vector<struct YearData> Data::GetAllData()
 {
-	return _data;
-}
-void Data::ShuffleData()
-{
-	random_shuffle(_data.begin(), _data.end());
+	vector<struct YearData> _returndata = vector<struct YearData>(_data);
+	return _returndata;
 }
