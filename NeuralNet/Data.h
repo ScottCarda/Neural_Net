@@ -3,6 +3,7 @@
 #include <sstream>
 #include <fstream>
 #include <algorithm> 
+#include <iostream>
 
 using namespace std;
 
@@ -26,6 +27,4 @@ public:
 
 private:
 	vector<struct TrainingTestingSet> _data;
-
-	
 };

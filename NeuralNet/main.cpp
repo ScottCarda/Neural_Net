@@ -12,7 +12,7 @@ using namespace std;
 const double ETA = 0.3;
 const double ALPHA = 0.5;
 
-void show_vector_vals( ofstream &fout, string label, vector<double> &v );
+void show_vector_vals(ofstream &fout, string label, vector<double> &v);
 
 int main(int argc, char* argv[])
 {
@@ -25,7 +25,7 @@ int main(int argc, char* argv[])
 	}
 	else
 		cout << "You're doing it wrong!" << endl;
-return 0;
+	return 0;
 }
 
 //int not_not_main()
@@ -73,10 +73,10 @@ return 0;
 //	return 0;
 //}
 
-void show_vector_vals( ofstream &fout, string label, vector<double> &v )
+void show_vector_vals(ofstream &fout, string label, vector<double> &v)
 {
 	fout << label << " ";
-	for ( unsigned i = 0; i < v.size(); i++ )
+	for (unsigned i = 0; i < v.size(); i++)
 		fout << v[i] << " ";
 	fout << endl;
 	return;
@@ -87,19 +87,19 @@ void not_main()
 	bool x, y, z;
 	fstream myFile;
 
-	myFile.open( "xor.txt", fstream::out );
+	myFile.open("xor.txt", fstream::out);
 	myFile << "topology: 2 4 1" << endl;
 
-	srand( time( NULL ) );
+	srand(time(NULL));
 
-	for ( unsigned i = 0; i < 2000; i++ )
+	for (unsigned i = 0; i < 2000; i++)
 	{
 		x = rand() % 2;
 		y = rand() % 2;
 		z = !x != !y;
 
-		myFile << "in: " << double( x ) << " " << double( y ) << endl;
-		myFile << "out: " << double( z ) << endl;
+		myFile << "in: " << double(x) << " " << double(y) << endl;
+		myFile << "out: " << double(z) << endl;
 	}
 
 	myFile.close();
