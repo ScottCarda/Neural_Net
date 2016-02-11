@@ -20,7 +20,7 @@ public:
 	double GetAlpha(); //momentum
 	double GetErrorThresh();
 	int GetNumLayers();
-	vector<int> GetNodesPerLayer();
+	vector<unsigned> GetNodesPerLayer();
 	string GetTrainTestFileName();
 	int GetNumYearsBurnedAcreage();
 	int GetNumMonthsPDSI();
@@ -36,7 +36,7 @@ private:
 	double _alpha; //momentum
 	double _errorthresh;
 	int _numlayers;
-	vector<int> _nodesperlayer;
+	vector<unsigned> _nodesperlayer;
 	string _traintestfilename;
 	int _numyearsburnedacreage;
 	int _nummonthspdsi;

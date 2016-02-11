@@ -81,7 +81,7 @@ double Parameters::GetEta(){ return _eta;} //learning rate
 double Parameters::GetAlpha(){ return _alpha;} //momentum
 double Parameters::GetErrorThresh(){ return _errorthresh;}
 int Parameters::GetNumLayers(){ return _numlayers;}
-vector<int> Parameters::GetNodesPerLayer(){ return _nodesperlayer;}
+vector<unsigned> Parameters::GetNodesPerLayer(){ return _nodesperlayer;}
 string Parameters::GetTrainTestFileName(){ return _traintestfilename;}
 int Parameters::GetNumYearsBurnedAcreage(){ return _numyearsburnedacreage;}
 int Parameters::GetNumMonthsPDSI(){ return _nummonthspdsi;}

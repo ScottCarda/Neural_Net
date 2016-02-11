@@ -19,19 +19,21 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 // Provides weight values for new connections
 double Neuron::get_new_weight()
 {
-	return 1;
+	return double( rand() ) / RAND_MAX;
 }
 
 // The neuron's function for determining if the neuron activates or not
 double Neuron::transform( double val )
 {
-	return tanh( val );
+	// sigmoid function
+	return 1.0 / ( 1.0 + exp( -val ) );
 }
 
 // The derivative of the mathematical function uses as the activation function
 double Neuron::transform_derivative( double val )
 {
-	return 1.0 - val * val;
+	// derivative of the transform function
+	return transform(val) * ( 1 - transform(val) );
 }
 
 // Adds a new connection to the node provided into the _input vector
@@ -50,7 +52,8 @@ void Neuron::feed_forward()
 		sum += _input[i].node->output * _input[i].weight;
 
 	// Map the summed inputs to the neuron's output
-	output = transform( sum );
+	// Rounds to implement all-or-nothing activation
+	output = int(transform( sum ));
 
 	// Erase data from previous back propagations
 	weight_corrections.clear();

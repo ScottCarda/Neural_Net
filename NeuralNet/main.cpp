@@ -20,7 +20,7 @@ int main(int argc, char* argv[])
 	{
 		Parameters params = Parameters(argv[1]);
 		Data data = Data(params.GetTrainTestFileName(), params.GetNumYearsBurnedAcreage(),
-			params.GetNumMonthsPDSI(), params.GetEndMonthCurrYear());
+			params.GetNumMonthsPDSI(), params.GetEndMonthCurrYear(), params.GetFireSeverityCutoffs());
 		data.ShuffleData();
 	}
 	else
@@ -103,6 +103,36 @@ void not_main()
 	}
 
 	myFile.close();
+
+	return;
+}
+
+// Trains a neural net with the training set provided. The weights for the
+// trained net will be stored in the file specified by the Parameter object.
+void training( Parameters &params, vector<struct TrainingTestingSet> &trainingSet )
+{
+	// Create a neural net
+	Net ann( params.GetNodesPerLayer(), params.GetEta(), params.GetAlpha() );
+	
+	// Get number of training epochs
+	int num_epochs = params.GetEpochs();
+
+	// Epoch loop
+	for ( int j = 0; j < num_epochs; j++ )
+	{
+		// Shuffle order of records
+		random_shuffle( trainingSet.begin(), trainingSet.end() );
+
+		// Perform feed forward and back prop once for each record
+		for ( int i = 0; i < trainingSet.size(); i++ )
+		{
+			ann.feed_forward( trainingSet[i].inputs );
+			ann.back_prop( trainingSet[i].class_outputs );
+		}
+	}
+
+	// Save net's weights to the weight file
+	ann.print_weights( params.GetWeightsFileName() );
 
 	return;
 }

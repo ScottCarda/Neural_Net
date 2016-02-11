@@ -75,6 +75,9 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 		// Add layer to net
 		_layers.push_back( layer );
 	}
+
+	// Seed rand for random weights
+	srand( time( NULL ) );
 }
 
 // Sets the output values of the output layer given an

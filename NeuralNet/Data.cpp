@@ -1,7 +1,7 @@
 #include "Data.h"
 
 Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
-	const int NumMonthsPDSI, const int EndMonthCurrYear)
+	const int NumMonthsPDSI, const int EndMonthCurrYear, vector<int> &FireSeverityCutoffs )
 {
 	
 	ifstream _traintestfile;
@@ -65,6 +65,18 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 		TrainingTestingSet set;
 		set.year = years[i][0];
 		set.actualburnedacres = years[i][1];
+		
+		set.class_outputs.push_back( 0 );
+		set.class_outputs.push_back( 0 );
+		set.class_outputs.push_back( 0 );
+
+		if ( set.actualburnedacres < FireSeverityCutoffs[0] )
+			set.class_outputs[0] = 1;
+		else if ( set.actualburnedacres < FireSeverityCutoffs[1] )
+			set.class_outputs[1] = 1;
+		else
+			set.class_outputs[1] = 1;
+
 		for (int j = 0; j < NumYearsBurnedAcerage; j++)
 			set.inputs.push_back((years[i - (j + 1)][1] - burnedacresmin) / (burnedacresmax - burnedacresmin));
 		int k = EndMonthCurrYear + 2;

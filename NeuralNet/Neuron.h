@@ -21,6 +21,7 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 #include <cmath>
 #include <vector>
 #include <fstream>
+#include <ctime>
 using namespace std;
 
 
