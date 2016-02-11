@@ -37,6 +37,7 @@ Parameters::Parameters(const string ParamFileName)
 		while (param.empty()) param = ParseLine(_paramfile);
 		//save the weights file name
 		_weightsfilename = param;
+		//clear the param string for reading new params
 		param.clear();
 
 		//get Epochs
@@ -65,6 +66,7 @@ Parameters::Parameters(const string ParamFileName)
 		param.clear();
 
 		//get the Number of Nodes in each layer
+		//special read because there are multiple parameters in the same line
 		for (int i = 0; i < (_numlayers + 1); i++)
 		{
 			_paramfile >> param;
@@ -106,6 +108,13 @@ Parameters::Parameters(const string ParamFileName)
 		}
 		param.clear();
 	}
+
+	//exit program if file can't open
+	else
+	{
+		cout << "Unable to open given Parameter file. Exiting." << endl;
+		exit(EXIT_FAILURE);
+	}
 	//close the parameters file
 	_paramfile.close();
 
@@ -115,8 +124,11 @@ string Parameters::ParseLine(ifstream &File)
 {
 	string line;
 	string parsed;
+	//get a line
 	getline(File, line);
+	//make the line into just the part that doesn't start with a #, new line, tab, or return
 	parsed = line.substr(0, line.find_first_of("#\n\t\r"));
+	//return the parsed line
 	return parsed;
 
 }
@@ -126,6 +138,7 @@ Parameters::~Parameters()
 {
 }
 
+//functions to get class variables, no setters
 string Parameters::GetParamFileName() { return _paramfilename; }
 string Parameters::GetWeightsFileName() { return _weightsfilename; }
 int Parameters::GetEpochs() { return _epochs; }

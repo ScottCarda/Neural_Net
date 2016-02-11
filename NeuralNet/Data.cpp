@@ -83,6 +83,13 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 		}
 	}
 
+	//exit program if file can't open
+	else
+	{
+		cout << "Unable to open given Training and Testing Data file. Exiting." << endl;
+		exit(EXIT_FAILURE);
+	}
+
 }
 
 Data::~Data()

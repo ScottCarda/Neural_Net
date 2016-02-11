@@ -18,6 +18,7 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 #include <vector>
 #include <sstream>
 #include <fstream>
+#include <iostream>
 
 using namespace std;
 
@@ -27,10 +28,11 @@ using namespace std;
 class Parameters
 {
 public:
+	//constructor/destructor
 	Parameters(const string ParamFileName);
-	string ParseLine(ifstream &File);
 	~Parameters();
 
+	//Getter functions, no setters, data should be read only
 	string GetParamFileName();
 	string GetWeightsFileName();
 	int GetEpochs();
@@ -46,7 +48,11 @@ public:
 	int GetNumOutputClasses();
 	vector<int> GetFireSeverityCutoffs();
 
-private:
+private:	
+	//function to parse a line in the parameters file
+	string ParseLine(ifstream &File);
+
+	//class data, taken from parameters file
 	string _paramfilename;
 	string _weightsfilename;
 	int _epochs;
