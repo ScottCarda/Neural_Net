@@ -59,10 +59,11 @@ private:
 	double _eta;	// Network learning rate
 	double _alpha;	// Network momentum
 
-	double _error;	// Difference between network output and expected output
-	double _avg_error;	// Average error
-	// Smoothing factor used in calculating avg_error
-	double _error_smoothing_factor;
+	double _error;	// RMS error from most recent back propagation
+	double _avg_error;	// Average RMS since start of the net, or last reset
+	
+	// Number of times back_prop has been called since last reset
+	int _back_prop_count;
 };
 
 #endif

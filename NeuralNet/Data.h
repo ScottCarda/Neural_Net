@@ -40,8 +40,8 @@ public:
 		const int NumMonthsPDSI, const int EndMonthCurrYear, vector<int> &FireSeverityCutoffs );
 	~Data();
 
-	vector<struct YearData> GetAllData();
+	vector<YearData> GetAllData();
 
 private:
-	vector<struct YearData> _data;
+	vector<YearData> _data;
 };

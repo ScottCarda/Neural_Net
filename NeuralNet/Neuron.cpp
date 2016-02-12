@@ -52,8 +52,7 @@ void Neuron::feed_forward()
 		sum += _input[i].node->output * _input[i].weight;
 
 	// Map the summed inputs to the neuron's output
-	// Rounds to implement all-or-nothing activation
-	output = int(transform( sum ));
+	output = transform( sum );
 
 	// Erase data from previous back propagations
 	weight_corrections.clear();
@@ -79,8 +78,9 @@ void Neuron::calc_gradient()
 // neurons whose output are feed into this neuron
 void Neuron::send_weight_corrections()
 {
-	// send weight * gradient back
-	for ( unsigned i = 0; i < _input.size(); i++ )
+	// Send weight * gradient back
+	// Skip bias neurons
+	for ( unsigned i = 0; i < _input.size() - 1; i++ )
 		_input[i].node->weight_corrections.push_back(
 			_input[i].weight * _gradient );
 

@@ -23,7 +23,7 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 	_alpha( alpha ),
 	_error( 0.0 ),
 	_avg_error( 0.0 ),
-	_error_smoothing_factor( 0.25 )
+	_back_prop_count( 0 )
 {
 	// Creates the input layer with the first number from topology
 	for ( unsigned i = 0; i < topology[0]; i++ )
@@ -92,19 +92,11 @@ void Net::feed_forward( const vector<double> &inputs )
 		_input_layer[i].weight_corrections.clear();
 	}
 
-	// Also, clear the weight_corrections vector for the bias neuron
-	_input_layer.back().weight_corrections.clear();
-
 	// Loop through each neuron and call their feed_forward
+	// Skip bias neurons
 	for ( unsigned i = 0; i < _layers.size(); i++ )
-	{
-		// Skip bias neurons, as they are handled differently
 		for ( unsigned j = 0; j < _layers[i].size() - 1; j++ )
 			_layers[i][j].feed_forward();
-
-		// Clear the weight_corrections vector for the bias neuron
-		_layers[i].back().weight_corrections.clear();
-	}
 
 	return;
 }
@@ -114,6 +106,7 @@ void Net::feed_forward( const vector<double> &inputs )
 void Net::back_prop( const vector<double> &expected_outputs )
 {
 	_error = 0.0;
+	_back_prop_count++;
 
 	Layer &output_layer = _layers.back();	// Reference to the last layer
 
@@ -131,10 +124,8 @@ void Net::back_prop( const vector<double> &expected_outputs )
 	_error /= output_layer.size() - 1;
 	_error = sqrt( _error );
 
-	// Keeps track of recent average error
-	_avg_error =
-		( _avg_error * _error_smoothing_factor + _error )
-		/ ( _error_smoothing_factor + 1.0 );
+	// Updates average error with the new value
+	_avg_error += ( _error - _avg_error ) / _back_prop_count;
 
 	// Loop through each neuron and call their back_prop
 	// Skip input layer, and bias neurons
@@ -202,7 +193,7 @@ void Net::set_alpha( double alpha )
 	return;
 }
 
-// Sets the state of the neuron a new neuron
+// Sets the state of the net a new net
 void Net::reset()
 {
 	// Set the output for each input node ( not bias )
@@ -213,14 +204,16 @@ void Net::reset()
 		_input_layer[i].weight_corrections.clear();
 	}
 
-	// Also, clear the weight_corrections vector for the bias neuron
-	_input_layer.back().weight_corrections.clear();
-
 	// Loop through each neuron and call their reset
 	// Skip bias neurons
 	for ( unsigned i = 0; i < _layers.size(); i++ )
 		for ( unsigned j = 0; j < _layers[i].size() - 1; j++ )
 			_layers[i][j].reset();
+
+	// Clear data members for the net
+	_error = 0.0;
+	_avg_error = 0.0;
+	_back_prop_count = 0;
 
 	return;
 }

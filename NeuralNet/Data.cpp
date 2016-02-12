@@ -109,8 +109,8 @@ Data::~Data()
 
 }
 
-vector<struct YearData> Data::GetAllData()
+vector<YearData> Data::GetAllData()
 {
-	vector<struct YearData> _returndata = vector<struct YearData>(_data);
+	vector<YearData> _returndata = vector<YearData>(_data);
 	return _returndata;
 }

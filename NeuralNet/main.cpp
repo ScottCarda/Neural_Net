@@ -4,6 +4,7 @@
 #include <vector>
 #include <iostream>
 #include <fstream>
+#include <iomanip>
 #include "Data.h"
 #include "Net.h"
 #include "Parameters.h"
@@ -12,19 +13,26 @@ using namespace std;
 const double ETA = 0.3;
 const double ALPHA = 0.5;
 
-void show_vector_vals(ofstream &fout, string label, vector<double> &v);
+//void show_vector_vals(ofstream &fout, string label, vector<double> &v);
+void training( Parameters &params, vector<YearData> &trainingSet );
 
-int main(int argc, char* argv[])
+int main( int argc, char* argv[] )
 {
-	if (argc == 2)
+	if ( argc != 2 )
 	{
-		Parameters params = Parameters(argv[1]);
-		Data data = Data(params.GetTrainTestFileName(), params.GetNumYearsBurnedAcreage(),
-			params.GetNumMonthsPDSI(), params.GetEndMonthCurrYear(), params.GetFireSeverityCutoffs());
-		data.ShuffleData();
+		cout << "Incorrect Usage" << endl;
+		return -1;
 	}
-	else
-		cout << "You're doing it wrong!" << endl;
+
+	Parameters params = Parameters( argv[1] );
+	Data data = Data( params.GetTrainTestFileName(), params.GetNumYearsBurnedAcreage(),
+		params.GetNumMonthsPDSI(), params.GetEndMonthCurrYear(), params.GetFireSeverityCutoffs() );
+
+	cout << "Parameter file: " << params.GetParamFileName() << endl;
+	cout << "reading data from file: " << params.GetTrainTestFileName() << endl;
+
+	training( params, data.GetAllData() );
+
 	return 0;
 }
 
@@ -73,14 +81,14 @@ int main(int argc, char* argv[])
 //	return 0;
 //}
 
-void show_vector_vals(ofstream &fout, string label, vector<double> &v)
-{
-	fout << label << " ";
-	for (unsigned i = 0; i < v.size(); i++)
-		fout << v[i] << " ";
-	fout << endl;
-	return;
-}
+//void show_vector_vals(ofstream &fout, string label, vector<double> &v)
+//{
+//	fout << label << " ";
+//	for (unsigned i = 0; i < v.size(); i++)
+//		fout << v[i] << " ";
+//	fout << endl;
+//	return;
+//}
 
 void not_main()
 {
@@ -109,13 +117,19 @@ void not_main()
 
 // Trains a neural net with the training set provided. The weights for the
 // trained net will be stored in the file specified by the Parameter object.
-void training( Parameters &params, vector<struct TrainingTestingSet> &trainingSet )
+void training( Parameters &params, vector<YearData> &trainingSet )
 {
 	// Create a neural net
 	Net ann( params.GetNodesPerLayer(), params.GetEta(), params.GetAlpha() );
 	
 	// Get number of training epochs
 	int num_epochs = params.GetEpochs();
+
+	// Get error threshold for stopping
+	double error_thresh = params.GetErrorThresh();
+
+	// Only present floats to the thousandths place
+	cout << setprecision( 3 );
 
 	// Epoch loop
 	for ( int j = 0; j < num_epochs; j++ )
@@ -130,8 +144,19 @@ void training( Parameters &params, vector<struct TrainingTestingSet> &trainingSe
 			ann.back_prop( trainingSet[i].class_outputs );
 		}
 
+		// Stop if error threshold is reached
+		if ( ann.get_avg_error() < error_thresh )
+		{
+			cout << "Epoch" << setw( 7 ) << j << ": RMS error = "
+				 << ann.get_avg_error() << endl;
+			cout << "Error Threshold Met" << endl;
+			break;
+		}
+
+		// Print out every ten epochs
 		if ( j % 10 == 0 )
-			cout << "Epoch\t" << j << ": RMS error = " << ann.get_avg_error()
+			cout << "Epoch" << setw( 7 ) << j << ": RMS error = "
+				 << ann.get_avg_error() << endl;
 	}
 
 	// Save net's weights to the weight file
