@@ -149,6 +149,12 @@ void Net::get_output( vector<double> &outputs )
 	return;
 }
 
+// Getter for _error
+double Net::get_error()
+{
+	return _error;
+}
+
 // Getter for _avg_error
 double Net::get_avg_error()
 {

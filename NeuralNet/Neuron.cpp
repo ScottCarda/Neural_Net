@@ -11,6 +11,7 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 
 // include file
 #include "Neuron.h"
+#include <iostream>
 
 /******************************************************************************/
 /*                       Neuron Class Member Functions                        */
@@ -19,7 +20,8 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 // Provides weight values for new connections
 double Neuron::get_new_weight()
 {
-	return double( rand() ) / RAND_MAX;
+	double scale_value = ( RAND_MAX + 1 ) / 4.0;
+	return double( rand() ) / scale_value - 2;
 }
 
 // The neuron's function for determining if the neuron activates or not
@@ -33,7 +35,8 @@ double Neuron::transform( double val )
 double Neuron::transform_derivative( double val )
 {
 	// derivative of the transform function
-	return transform(val) * ( 1 - transform(val) );
+	double exp_val = exp( val );
+	return exp_val / ( 1 + exp_val ) / ( 1 + exp_val );
 }
 
 // Adds a new connection to the node provided into the _input vector

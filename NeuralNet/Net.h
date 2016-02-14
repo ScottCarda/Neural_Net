@@ -42,6 +42,7 @@ public:
 	void feed_forward(const vector<double> &inputs);
 	void back_prop(const vector<double> &expected_outputs);
 	void get_output(vector<double> &outputs);
+	double get_error();
 	double get_avg_error();
 	double get_eta();
 	void set_eta(double eta);

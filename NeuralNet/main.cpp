@@ -132,30 +132,30 @@ void training( Parameters &params, vector<YearData> &trainingSet )
 	cout << setprecision( 3 );
 
 	// Epoch loop
-	for ( int j = 0; j < num_epochs; j++ )
+	for ( int i = 0; i < num_epochs; i++ )
 	{
 		// Shuffle order of records
 		random_shuffle( trainingSet.begin(), trainingSet.end() );
 
 		// Perform feed forward and back prop once for each record
-		for ( int i = 0; i < trainingSet.size(); i++ )
+		for ( int j = 0; j < trainingSet.size(); j++ )
 		{
-			ann.feed_forward( trainingSet[i].inputs );
-			ann.back_prop( trainingSet[i].class_outputs );
+			ann.feed_forward( trainingSet[j].inputs );
+			ann.back_prop( trainingSet[j].class_outputs );
 		}
 
 		// Stop if error threshold is reached
 		if ( ann.get_avg_error() < error_thresh )
 		{
-			cout << "Epoch" << setw( 7 ) << j << ": RMS error = "
+			cout << "Epoch" << setw( 7 ) << i << ": RMS error = "
 				 << ann.get_avg_error() << endl;
 			cout << "Error Threshold Met" << endl;
 			break;
 		}
 
 		// Print out every ten epochs
-		if ( j % 10 == 0 )
-			cout << "Epoch" << setw( 7 ) << j << ": RMS error = "
+		if ( i % 10 == 0 )
+			cout << "Epoch" << setw( 7 ) << i << ": RMS error = "
 				 << ann.get_avg_error() << endl;
 	}
 
