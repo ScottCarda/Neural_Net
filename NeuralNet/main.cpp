@@ -1,16 +1,17 @@
-#include <cstdlib>
 #include <ctime>
 #include <string>
 #include <vector>
 #include <iostream>
 #include <fstream>
 #include <iomanip>
+#include <stdlib.h>
 #include "Data.h"
 #include "Net.h"
 #include "Parameters.h"
 using namespace std;
 
 void training( Parameters &params, vector<YearData> &trainingSet );
+void testing(Parameters &params, vector<YearData> &testSet);
 
 int main( int argc, char* argv[] )
 {
@@ -27,11 +28,88 @@ int main( int argc, char* argv[] )
 		params.GetNumMonthsPDSI(), params.GetEndMonthCurrYear(), params.GetFireSeverityCutoffs() );
 
 	cout << "Parameter file: " << params.GetParamFileName() << endl;
-	cout << "reading data from file: " << params.GetTrainTestFileName() << endl;
+	cout << "Reading data from file: " << params.GetTrainTestFileName() << endl << endl;
 
-	training( params, data.GetAllData() );
+	//training( params, data.GetAllData() );
+	testing( params, data.GetAllData() );
 
 	return 0;
+}
+
+void testing(Parameters &params, vector<YearData> &testSet)
+{
+	int numberCorrect = 0;
+	bool low, mid, high;
+	int i;
+	double percentCorrect;
+	Net ann(params.GetNodesPerLayer(), params.GetEta(), params.GetAlpha());
+	vector<double> outputsFromNet;
+
+	// read in weight file
+	ann.read_in_weights(params.GetWeightsFileName(), params.GetNumLayers(), params.GetNodesPerLayer());
+
+	cout << "Sample, Actual, Predicted" << endl;
+
+	for (i = 0; i < testSet.size(); i++)
+	{
+		low = false;
+		mid = false;
+		high = false;
+		ann.feed_forward(testSet[i].inputs);
+		ann.get_output(outputsFromNet);
+		
+		cout << i << ", ";
+
+		if (outputsFromNet.at(0) > outputsFromNet.at(1) && outputsFromNet.at(0) > outputsFromNet.at(2))
+		{
+			cout << "100, ";
+			low = true;
+		}
+		else if (outputsFromNet.at(1) > outputsFromNet.at(0) && outputsFromNet.at(1) > outputsFromNet.at(2))
+		{
+			cout << "010, ";
+			mid = true;
+		}
+		else
+		{
+			cout << "001, ";
+			high = true;
+		}
+
+		if (testSet[i].actualburnedacres > params.GetFireSeverityCutoffs().at(0) && testSet[i].actualburnedacres < params.GetFireSeverityCutoffs().at(1))
+		{
+			cout << "010";
+			if (mid) 
+				numberCorrect++;
+			else
+				cout << ", *";
+		}
+		else if (testSet[i].actualburnedacres > params.GetFireSeverityCutoffs().at(1))
+		{
+			cout << "001";
+			if (high)
+				numberCorrect++;
+			else
+				cout << ", *";
+		}
+		else
+		{
+			cout << "100";
+			if (low) 
+				numberCorrect++;
+			else
+				cout << ", *";
+		}
+
+		cout << endl;
+	}
+
+	percentCorrect = numberCorrect / (double)i;
+
+	cout << "\nRMS error: fix this" << ann.get_avg_error() << endl;
+
+	cout << "accuracy: " << fixed << setprecision(2) << percentCorrect << " %" << endl;
+	return;
 }
 
 // Trains a neural net with the training set provided. The weights for the

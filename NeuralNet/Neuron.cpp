@@ -153,6 +153,16 @@ void Neuron::set_alpha( double alpha )
 	return;
 }
 
+void Neuron::set_weight(vector<double> weights)
+{
+	for (int w = 0; w < weights.size(); w++)
+	{
+		_input.at(w).weight = weights.at(w);
+	}
+
+	return;
+}
+
 // Sets the state of the neuron a new neuron
 void Neuron::reset()
 {

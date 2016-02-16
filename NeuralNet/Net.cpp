@@ -80,6 +80,36 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 	srand( time( NULL ) );
 }
 
+// read in the weights and put the value in the node
+void Net::read_in_weights(string weightsFileName, int numberOfLayers, vector<unsigned int> nodesPerLayer)
+{
+	ifstream _weightsfile;
+	double currweight = 0.0;
+	int k;
+	vector<double> weightsPerNeuron;
+
+	_weightsfile.open(weightsFileName);
+
+	if (_weightsfile.is_open())
+	{
+		for (int i = 0; i < _layers.size(); i++)
+		{
+			for (int j = 0; j < _layers.at(i).size() - 1; j++)
+			{
+				weightsPerNeuron.clear();
+				for (int k = 0; k < nodesPerLayer.at(i); k++)
+				{
+					_weightsfile >> currweight;
+					weightsPerNeuron.push_back(currweight);
+				}
+				_layers.at(i).at(j).set_weight(weightsPerNeuron);
+			}
+		}
+		_weightsfile.close();
+	}
+	return;
+}
+
 // Sets the output values of the output layer given an
 // input vector based on the net's weighted connections
 void Net::feed_forward( const vector<double> &inputs )

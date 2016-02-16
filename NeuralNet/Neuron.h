@@ -82,6 +82,7 @@ public:
 	void set_eta( double eta );
 	double get_alpha();
 	void set_alpha( double alpha );
+	void set_weight(vector<double> weights);
 
 private:
 	static double get_new_weight();
