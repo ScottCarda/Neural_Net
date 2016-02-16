@@ -35,8 +35,7 @@ double Neuron::transform( double val )
 double Neuron::transform_derivative( double val )
 {
 	// derivative of the transform function
-	double exp_val = exp( val );
-	return exp_val / ( 1 + exp_val ) / ( 1 + exp_val );
+	return val * ( 1 - val );
 }
 
 // Adds a new connection to the node provided into the _input vector
@@ -101,6 +100,7 @@ void Neuron::updateWeights()
 		// Calculate the new delta weight
 		new_delta =
 			_eta
+			//* transform_derivative( _input[i].node->output )
 			* _input[i].node->output
 			* _gradient
 			+
