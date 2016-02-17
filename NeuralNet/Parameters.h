@@ -3,7 +3,7 @@
 
 Contains the definitions for the Parameters class. The Parameters class contains
 all the information included in the Parameter.prm file. The variables in this class
-are read only, and can only be accessed via Get methods. 
+are read only, and can only be accessed via Get methods.
 
 CSC547 Artificial Intelligence - Spring 2016
 
@@ -48,7 +48,7 @@ public:
 	int GetNumOutputClasses();
 	vector<int> GetFireSeverityCutoffs();
 
-private:	
+private:
 	//function to parse a line in the parameters file
 	string ParseLine(ifstream &File);
 

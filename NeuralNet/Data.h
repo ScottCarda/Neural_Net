@@ -29,7 +29,7 @@ struct YearData
 {
 	int year;
 	int actualburnedacres;
-	vector<double> class_outputs;
+	vector<double> class_outputs; //corresponding to mild, moderate, severe fire danger
 	vector<double> inputs;
 };
 
@@ -40,8 +40,8 @@ class Data
 {
 public:
 	//constructor/destructor
-	Data( const string TrainTestDataFileName, const int NumYearsBurnedAcerage, 
-		const int NumMonthsPDSI, const int EndMonthCurrYear, vector<int> &FireSeverityCutoffs );
+	Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
+		const int NumMonthsPDSI, const int EndMonthCurrYear, vector<int> &FireSeverityCutoffs);
 	~Data();
 
 	//data getter

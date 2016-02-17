@@ -19,7 +19,7 @@
 #---------------
 
 weights.wts     # name of ANN weight file
-4000            # number of training epochs
+500            # number of training epochs
 0.4             # learning rate
 0.0             # momentum
 0.01            # threshold for ANN error (training cutoff OR testing acceptance)

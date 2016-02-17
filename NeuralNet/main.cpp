@@ -12,6 +12,7 @@ using namespace std;
 
 void training( Parameters &params, vector<YearData> &trainingSet );
 void testing(Parameters &params, vector<YearData> &testSet);
+void crossValidate(Parameters &params, vector<YearData> &cvSet);
 
 int main( int argc, char* argv[] )
 {
@@ -30,8 +31,9 @@ int main( int argc, char* argv[] )
 	cout << "Parameter file: " << params.GetParamFileName() << endl;
 	cout << "Reading data from file: " << params.GetTrainTestFileName() << endl << endl;
 
-	//training( params, data.GetAllData() );
+	training( params, data.GetAllData() );
 	testing( params, data.GetAllData() );
+	crossValidate(params, data.GetAllData());
 
 	return 0;
 }
@@ -161,3 +163,110 @@ void training( Parameters &params, vector<YearData> &trainingSet )
 
 	return;
 }
+
+void crossValidate(Parameters &params, vector<YearData> &cvSet)
+{
+	//split cv set into training set and testing set
+	vector<YearData> trainingSet;
+	YearData testSet;
+	int numberCorrect = 0;
+	bool low, mid, high;
+	int i;
+	double percentCorrect;
+	vector<double> outputsFromNet;
+	// Get number of training epochs
+	int num_epochs = params.GetEpochs();
+
+	// Get error threshold for stopping
+	double error_thresh = params.GetErrorThresh();		
+	
+	cout << "Sample, Actual, Predicted" << endl;
+	for ( int q = 0; q < cvSet.size(); q++)
+	{
+		trainingSet = vector<YearData>(cvSet);
+		trainingSet.erase(trainingSet.begin()+q);
+		testSet = YearData(cvSet.at(q));
+		// Create a neural net
+		Net ann(params.GetNodesPerLayer(), params.GetEta(), params.GetAlpha());
+
+		// Only present floats to the thousandths place
+		cout << setprecision(3);
+
+		// Epoch loop
+		for (int i = 0; i < num_epochs; i++)
+		{
+			// Shuffle order of records
+			random_shuffle(trainingSet.begin(), trainingSet.end());
+
+			// Perform feed forward and back prop once for each record
+			for (int j = 0; j < trainingSet.size(); j++)
+			{
+				ann.feed_forward(trainingSet[j].inputs);
+				ann.back_prop(trainingSet[j].class_outputs);
+			}
+
+			// Stop if error threshold is reached
+			if (ann.get_avg_error() < error_thresh)
+				break;
+
+		}
+
+		//testing
+		low = false;
+		mid = false;
+		high = false;
+		//feed the data through the net
+		ann.feed_forward(testSet.inputs);
+		ann.get_output(outputsFromNet);
+
+		cout << testSet.year << ", ";
+
+		if (outputsFromNet.at(0) > outputsFromNet.at(1) && outputsFromNet.at(0) > outputsFromNet.at(2))
+		{
+			cout << "100, ";
+			low = true;
+		}
+		else if (outputsFromNet.at(1) > outputsFromNet.at(0) && outputsFromNet.at(1) > outputsFromNet.at(2))
+		{
+			cout << "010, ";
+			mid = true;
+		}
+		else
+		{
+			cout << "001, ";
+			high = true;
+		}
+
+		if (testSet.actualburnedacres > params.GetFireSeverityCutoffs().at(0) && testSet.actualburnedacres < params.GetFireSeverityCutoffs().at(1))
+		{
+			cout << "010";
+			if (mid)
+				numberCorrect++;
+			else
+				cout << ", *";
+		}
+		else if (testSet.actualburnedacres > params.GetFireSeverityCutoffs().at(1))
+		{
+			cout << "001";
+			if (high)
+				numberCorrect++;
+			else
+				cout << ", *";
+		}
+		else
+		{
+			cout << "100";
+			if (low)
+				numberCorrect++;
+			else
+				cout << ", *";
+		}
+
+		cout << endl;
+	}
+
+percentCorrect = numberCorrect / (double)cvSet.size();
+	cout << "accuracy: " << fixed << setprecision(2) << percentCorrect << " %" << endl;
+	return;
+}
+

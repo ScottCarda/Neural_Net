@@ -88,7 +88,7 @@ Parameters::Parameters(const string ParamFileName)
 		while (param.empty()) param = ParseLine(_paramfile);
 		_nummonthspdsi = stoi(param);
 		param.clear();
-		
+
 		//get the last month of data for the year
 		while (param.empty()) param = ParseLine(_paramfile);
 		_endmonthcurryear = stoi(param);
@@ -135,20 +135,20 @@ string Parameters::ParseLine(ifstream &File)
 }
 
 //Destructor
-Parameters::~Parameters(){}
+Parameters::~Parameters() {}
 
 //functions to get class variables, read only- no setters
 string Parameters::GetParamFileName() { return _paramfilename; }
-string Parameters::GetWeightsFileName(){ return _weightsfilename;}
-int Parameters::GetEpochs(){ return _epochs;}
-double Parameters::GetEta(){ return _eta;} //learning rate
-double Parameters::GetAlpha(){ return _alpha;} //momentum
-double Parameters::GetErrorThresh(){ return _errorthresh;}
-int Parameters::GetNumLayers(){ return _numlayers;}
-vector<unsigned> Parameters::GetNodesPerLayer(){ return _nodesperlayer;}
-string Parameters::GetTrainTestFileName(){ return _traintestfilename;}
-int Parameters::GetNumYearsBurnedAcreage(){ return _numyearsburnedacreage;}
-int Parameters::GetNumMonthsPDSI(){ return _nummonthspdsi;}
-int Parameters::GetEndMonthCurrYear(){ return _endmonthcurryear;}
-int Parameters::GetNumOutputClasses(){ return _numoutputclasses;}
-vector<int> Parameters::GetFireSeverityCutoffs(){ return _fireseveritycutoffs;}
+string Parameters::GetWeightsFileName() { return _weightsfilename; }
+int Parameters::GetEpochs() { return _epochs; }
+double Parameters::GetEta() { return _eta; } //learning rate
+double Parameters::GetAlpha() { return _alpha; } //momentum
+double Parameters::GetErrorThresh() { return _errorthresh; }
+int Parameters::GetNumLayers() { return _numlayers; }
+vector<unsigned> Parameters::GetNodesPerLayer() { return _nodesperlayer; }
+string Parameters::GetTrainTestFileName() { return _traintestfilename; }
+int Parameters::GetNumYearsBurnedAcreage() { return _numyearsburnedacreage; }
+int Parameters::GetNumMonthsPDSI() { return _nummonthspdsi; }
+int Parameters::GetEndMonthCurrYear() { return _endmonthcurryear; }
+int Parameters::GetNumOutputClasses() { return _numoutputclasses; }
+vector<int> Parameters::GetFireSeverityCutoffs() { return _fireseveritycutoffs; }

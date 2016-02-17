@@ -20,7 +20,7 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 
 // Constructor for Data class
 Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
-	const int NumMonthsPDSI, const int EndMonthCurrYear, vector<int> &FireSeverityCutoffs )
+	const int NumMonthsPDSI, const int EndMonthCurrYear, vector<int> &FireSeverityCutoffs)
 {
 	//open data file for reading
 	ifstream _traintestfile;
@@ -108,15 +108,15 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 			set.actualburnedacres = years[i][1];
 
 			//determine which output class the actual burned acerage falls in
-			set.class_outputs.push_back( 0 );
-			set.class_outputs.push_back( 0 );
-			set.class_outputs.push_back( 0 );
+			set.class_outputs.push_back(0);
+			set.class_outputs.push_back(0);
+			set.class_outputs.push_back(0);
 
 			//below first cutoff
-			if ( set.actualburnedacres < FireSeverityCutoffs[0] )
+			if (set.actualburnedacres < FireSeverityCutoffs[0])
 				set.class_outputs[0] = 1;
 			//above first cutoff, below second cutoff
-			else if ( set.actualburnedacres < FireSeverityCutoffs[1] )
+			else if (set.actualburnedacres < FireSeverityCutoffs[1])
 				set.class_outputs[1] = 1;
 			//above second cutoff
 			else
@@ -165,7 +165,7 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 }
 
 //Destructor
-Data::~Data(){}
+Data::~Data() {}
 
 //Getter function
 vector<YearData> Data::GetAllData()
