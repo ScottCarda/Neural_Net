@@ -23,7 +23,7 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 using namespace std;
 
 /******************************************************************************/
-/*                            Training Definition                           */
+/*                            YearData Definition                             */
 /******************************************************************************/
 struct YearData
 {
@@ -33,15 +33,21 @@ struct YearData
 	vector<double> inputs;
 };
 
+/******************************************************************************/
+/*                               Data Definition                              */
+/******************************************************************************/
 class Data
 {
 public:
+	//constructor/destructor
 	Data( const string TrainTestDataFileName, const int NumYearsBurnedAcerage, 
 		const int NumMonthsPDSI, const int EndMonthCurrYear, vector<int> &FireSeverityCutoffs );
 	~Data();
 
+	//data getter
 	vector<YearData> GetAllData();
 
 private:
+	//storage of all potential data sets
 	vector<YearData> _data;
 };

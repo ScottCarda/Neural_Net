@@ -120,6 +120,7 @@ Parameters::Parameters(const string ParamFileName)
 
 }
 
+//Helper function for parsing lines in parameter file
 string Parameters::ParseLine(ifstream &File)
 {
 	string line;
@@ -133,12 +134,10 @@ string Parameters::ParseLine(ifstream &File)
 
 }
 
+//Destructor
+Parameters::~Parameters(){}
 
-Parameters::~Parameters()
-{
-}
-
-//functions to get class variables, no setters
+//functions to get class variables, read only- no setters
 string Parameters::GetParamFileName() { return _paramfilename; }
 string Parameters::GetWeightsFileName(){ return _weightsfilename;}
 int Parameters::GetEpochs(){ return _epochs;}
