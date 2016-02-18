@@ -34,7 +34,7 @@ int main( int argc, char* argv[] )
 
 	training( params, data.GetAllData() );
 	testing( params, data.GetAllData() );
-	//crossValidate(params, data.GetAllData());
+	crossValidate(params, data.GetAllData());
 
 	return 0;
 }
@@ -235,7 +235,7 @@ void training( Parameters &params, vector<YearData> &trainingSet )
 		random_shuffle( trainingSet.begin(), trainingSet.end() );
 
 		// Perform feed forward and back prop once for each record
-		for ( int j = 0; j < trainingSet.size(); j++ )
+		for ( unsigned int j = 0; j < trainingSet.size(); j++ )
 		{
 			ann.feed_forward( trainingSet[j].inputs );
 			ann.back_prop( trainingSet[j].class_outputs );
@@ -272,7 +272,6 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 	YearData testSet;
 	int numberCorrect = 0;
 	bool low, mid, high;
-	int i;
 	double percentCorrect;
 	vector<double> outputsFromNet;
 	// Get number of training epochs
@@ -282,7 +281,7 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 	double error_thresh = params.GetErrorThresh();		
 	
 	cout << "Sample, Actual, Predicted" << endl;
-	for ( int q = 0; q < cvSet.size(); q++)
+	for ( unsigned int q = 0; q < cvSet.size(); q++)
 	{
 		trainingSet = vector<YearData>(cvSet);
 		trainingSet.erase(trainingSet.begin()+q);
@@ -300,7 +299,7 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 			random_shuffle(trainingSet.begin(), trainingSet.end());
 
 			// Perform feed forward and back prop once for each record
-			for (int j = 0; j < trainingSet.size(); j++)
+			for (unsigned int j = 0; j < trainingSet.size(); j++)
 			{
 				ann.feed_forward(trainingSet[j].inputs);
 				ann.back_prop(trainingSet[j].class_outputs);
@@ -366,7 +365,7 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 		cout << endl;
 	}
 
-percentCorrect = numberCorrect / (double)cvSet.size();
+percentCorrect = (numberCorrect / (double)cvSet.size()) *100;
 	cout << "accuracy: " << fixed << setprecision(2) << percentCorrect << " %" << endl;
 	return;
 }
