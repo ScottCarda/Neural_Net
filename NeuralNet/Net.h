@@ -53,6 +53,12 @@ public:
 
 	void print_weights(string filename);
 
+
+	double _avg_error;	// Average RMS since start of the net, or last reset
+
+	// Number of times back_prop has been called since last reset
+	int _back_prop_count;
+
 private:
 	vector<Node> _input_layer;	// The inputs into the network
 	// The layers of the network, not including the input layer
@@ -62,10 +68,6 @@ private:
 	double _alpha;	// Network momentum
 
 	double _error;	// RMS error from most recent back propagation
-	double _avg_error;	// Average RMS since start of the net, or last reset
-	
-	// Number of times back_prop has been called since last reset
-	int _back_prop_count;
 };
 
 #endif

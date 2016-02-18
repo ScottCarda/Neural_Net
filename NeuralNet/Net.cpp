@@ -92,12 +92,17 @@ void Net::read_in_weights(string weightsFileName, vector<unsigned int> nodesPerL
 
 	if (_weightsfile.is_open())
 	{
+		// Skip the header information
+		string line;
+		getline( _weightsfile, line );
+
 		for (int i = 0; i < _layers.size(); i++)
 		{
 			for (int j = 0; j < _layers.at(i).size() - 1; j++)
 			{
 				weightsPerNeuron.clear();
-				for (int k = 0; k < nodesPerLayer.at(i); k++)
+				// Add one to number of nodes for the bias node
+				for (int k = 0; k < nodesPerLayer.at(i) + 1; k++)
 				{
 					_weightsfile >> currweight;
 					weightsPerNeuron.push_back(currweight);

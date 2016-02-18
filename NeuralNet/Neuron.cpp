@@ -188,10 +188,7 @@ void Neuron::print_weights( ofstream &fout )
 {
 	// Loops through the weights
 	for ( unsigned int i = 0; i < _input.size(); i++ )
-	{
-		cout << _input[i].weight << " ";
 		fout << _input[i].weight << " ";
-	}
 
 	return;
 }

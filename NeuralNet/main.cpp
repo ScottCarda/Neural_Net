@@ -159,8 +159,12 @@ void training( Parameters &params, vector<YearData> &trainingSet )
 
 		// Print out every ten epochs
 		if ( i % 10 == 0 )
+		{
 			cout << "Epoch" << setw( 7 ) << i << ": RMS error = "
-				 << ann.get_avg_error() << endl;
+				<< ann.get_avg_error() << endl;
+			ann._back_prop_count = 0;
+			ann._avg_error;
+		}
 	}
 
 	// Save net's weights to the weight file
