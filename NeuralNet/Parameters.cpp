@@ -128,7 +128,7 @@ string Parameters::ParseLine(ifstream &File)
 	//get a line
 	getline(File, line);
 	//make the line into just the part that doesn't start with a #, new line, tab, or return
-	parsed = line.substr(0, line.find_first_of("#\n\t\r"));
+	parsed = line.substr(0, line.find_first_of(" #\n\t\r"));
 	//return the parsed line
 	return parsed;
 
