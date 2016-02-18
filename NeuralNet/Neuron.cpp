@@ -153,12 +153,12 @@ void Neuron::set_alpha( double alpha )
 	return;
 }
 
+// Sets the weights for each of the neuron's inputs
 void Neuron::set_weight(vector<double> weights)
 {
-	for (int w = 0; w < weights.size(); w++)
-	{
-		_input.at(w).weight = weights.at(w);
-	}
+	// Loops through each input connection on the neuron
+	for (int i = 0; i < weights.size(); i++)
+		_input.at(i).weight = weights.at(i);
 
 	return;
 }

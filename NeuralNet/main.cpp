@@ -8,6 +8,7 @@
 #include "Data.h"
 #include "Net.h"
 #include "Parameters.h"
+
 using namespace std;
 
 void training( Parameters &params, vector<YearData> &trainingSet );
@@ -157,13 +158,12 @@ void training( Parameters &params, vector<YearData> &trainingSet )
 			break;
 		}
 
-		// Print out every ten epochs
+		// Print out the average RMS error for every ten epochs
 		if ( i % 10 == 0 )
 		{
 			cout << "Epoch" << setw( 7 ) << i << ": RMS error = "
 				<< ann.get_avg_error() << endl;
-			ann._back_prop_count = 0;
-			ann._avg_error;
+			ann.reset_avg_error();
 		}
 	}
 
@@ -278,4 +278,3 @@ percentCorrect = numberCorrect / (double)cvSet.size();
 	cout << "accuracy: " << fixed << setprecision(2) << percentCorrect << " %" << endl;
 	return;
 }
-

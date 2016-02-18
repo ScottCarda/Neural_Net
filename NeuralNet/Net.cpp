@@ -80,12 +80,11 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 	srand( time( NULL ) );
 }
 
-// read in the weights and put the value in the node
+// Reads in the weights and put the value in the node
 void Net::read_in_weights(string weightsFileName, vector<unsigned int> nodesPerLayer)
 {
 	ifstream _weightsfile;
 	double currweight = 0.0;
-	int k;
 	vector<double> weightsPerNeuron;
 
 	_weightsfile.open(weightsFileName);
@@ -96,17 +95,20 @@ void Net::read_in_weights(string weightsFileName, vector<unsigned int> nodesPerL
 		string line;
 		getline( _weightsfile, line );
 
+		// Loops through each neuron in each layer ( not bias )
 		for (int i = 0; i < _layers.size(); i++)
 		{
 			for (int j = 0; j < _layers.at(i).size() - 1; j++)
 			{
+				// Gets the weight values from the file for the neuron
 				weightsPerNeuron.clear();
-				// Add one to number of nodes for the bias node
+				// Add one to number of nodes for the bias node' weight
 				for (int k = 0; k < nodesPerLayer.at(i) + 1; k++)
 				{
 					_weightsfile >> currweight;
 					weightsPerNeuron.push_back(currweight);
 				}
+				// Gives the new weights to the neuron
 				_layers.at(i).at(j).set_weight(weightsPerNeuron);
 			}
 		}
@@ -255,6 +257,15 @@ void Net::reset()
 	_error = 0.0;
 	_avg_error = 0.0;
 	_back_prop_count = 0;
+
+	return;
+}
+
+// Resets the running average error for the net
+void Net::reset_avg_error()
+{
+	_avg_error = 0.0;
+	_back_prop_count = 0.0;
 
 	return;
 }
