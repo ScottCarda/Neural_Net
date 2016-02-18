@@ -81,7 +81,7 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 }
 
 // read in the weights and put the value in the node
-void Net::read_in_weights(string weightsFileName, int numberOfLayers, vector<unsigned int> nodesPerLayer)
+void Net::read_in_weights(string weightsFileName, vector<unsigned int> nodesPerLayer)
 {
 	ifstream _weightsfile;
 	double currweight = 0.0;

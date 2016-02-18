@@ -39,7 +39,7 @@ public:
 	Net(const vector<unsigned> &topology, double eta, double alpha);
 	~Net() {};
 
-	void read_in_weights(string weightsFileName, int numberOfLayers, vector<unsigned int> nodesPerLayer);
+	void read_in_weights(string weightsFileName, vector<unsigned int> nodesPerLayer);
 	void feed_forward(const vector<double> &inputs);
 	void back_prop(const vector<double> &expected_outputs);
 	void get_output(vector<double> &outputs);

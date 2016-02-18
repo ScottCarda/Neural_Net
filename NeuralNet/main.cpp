@@ -32,8 +32,8 @@ int main( int argc, char* argv[] )
 	cout << "Reading data from file: " << params.GetTrainTestFileName() << endl << endl;
 
 	training( params, data.GetAllData() );
-	testing( params, data.GetAllData() );
-	crossValidate(params, data.GetAllData());
+	//testing( params, data.GetAllData() );
+	//crossValidate(params, data.GetAllData());
 
 	return 0;
 }
@@ -48,7 +48,7 @@ void testing(Parameters &params, vector<YearData> &testSet)
 	vector<double> outputsFromNet;
 
 	// read in weight file
-	ann.read_in_weights(params.GetWeightsFileName(), params.GetNumLayers(), params.GetNodesPerLayer());
+	ann.read_in_weights(params.GetWeightsFileName(), params.GetNodesPerLayer());
 
 	cout << "Sample, Actual, Predicted" << endl;
 
@@ -118,9 +118,14 @@ void testing(Parameters &params, vector<YearData> &testSet)
 // trained net will be stored in the file specified by the Parameter object.
 void training( Parameters &params, vector<YearData> &trainingSet )
 {
+	string weights_filename = params.GetWeightsFileName();
+
 	// Create a neural net
 	Net ann( params.GetNodesPerLayer(), params.GetEta(), params.GetAlpha() );
-	
+
+	// Set the weights according to the weights file
+	ann.read_in_weights( weights_filename, params.GetNodesPerLayer() );
+
 	// Get number of training epochs
 	int num_epochs = params.GetEpochs();
 
@@ -159,7 +164,7 @@ void training( Parameters &params, vector<YearData> &trainingSet )
 	}
 
 	// Save net's weights to the weight file
-	ann.print_weights( params.GetWeightsFileName() );
+	ann.print_weights( weights_filename );
 
 	return;
 }
