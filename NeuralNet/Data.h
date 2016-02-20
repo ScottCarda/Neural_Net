@@ -41,7 +41,7 @@ class Data
 public:
 	//constructor/destructor
 	Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
-		const int NumMonthsPDSI, const int EndMonthCurrYear, vector<int> &FireSeverityCutoffs);
+		const int NumMonthsPDSI, const int EndMonthCurrYear, const vector<int> &FireSeverityCutoffs);
 	~Data();
 
 	//data getter

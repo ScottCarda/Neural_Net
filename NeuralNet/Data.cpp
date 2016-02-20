@@ -20,7 +20,7 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 
 // Constructor for Data class
 Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
-	const int NumMonthsPDSI, const int EndMonthCurrYear, vector<int> &FireSeverityCutoffs)
+	const int NumMonthsPDSI, const int EndMonthCurrYear, const vector<int> &FireSeverityCutoffs)
 {
 	//open data file for reading
 	ifstream _traintestfile;
@@ -45,7 +45,7 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 			//clear the temp vector
 			year.clear();
 			//read 13 parameters, the 14th is a special case, because it ends with whitespace
-			for (int j = 0; j < 13; j++)
+			for ( int j = 0; j < 13; j++)
 			{
 				//get a string until a comma is encountered
 				getline(_traintestfile, line, ',');
@@ -71,7 +71,7 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 		double pdsimax = 0, pdsimin = 0;
 
 		//loop through all years
-		for (int i = 0; i < years.size(); i++)
+		for ( unsigned int i = 0; i < years.size(); i++)
 		{
 			//if encountering a new min or new max, update variable
 			if (years[i][1] > burnedacresmax)
@@ -79,7 +79,7 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 			if (years[i][1] < burnedacresmin)
 				burnedacresmin = years[i][1];
 			//loop through PDSIs, if encountering new min or max, update variable
-			for (int j = 2; j < 14; j++)
+			for ( int j = 2; j < 14; j++)
 			{
 				if (years[i][j] > pdsimax)
 					pdsimax = years[i][j];
@@ -100,7 +100,7 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 
 		//loop through the years, and create sets of data,
 		//including the year as an indentifier, the expected output and a vector of inputs
-		for (int i = startyear; i < years.size(); i++)
+		for ( unsigned int i = startyear; i < years.size(); i++)
 		{
 			//set the year and actual burned acres
 			YearData set;
@@ -125,7 +125,7 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 			//push back normalized previous years' burned acerage
 			//j corresponds to which previous year to go to, 
 			//first add the year immediately prior, then the next year back, etc.
-			for (int j = 0; j < NumYearsBurnedAcerage; j++)
+			for ( int j = 0; j < NumYearsBurnedAcerage; j++)
 				set.inputs.push_back((years[i - (j + 1)][1] - burnedacresmin) / (burnedacresmax - burnedacresmin));
 
 			//fun variables because we're stepping back through elements (zero based) 2-13 of each year
@@ -136,7 +136,7 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 			//l tracks which year we are in (starting in the current year)
 			int l = i;
 			//j tracks how many months we've grabbed
-			for (int j = 0; j < NumMonthsPDSI; j++, k--)
+			for ( int j = 0; j < NumMonthsPDSI; j++, k--)
 			{
 				//push back a month of data
 				set.inputs.push_back((years[l][k] - pdsimin) / (pdsimax - pdsimin));

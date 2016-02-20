@@ -26,7 +26,7 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 	_back_prop_count( 0 )
 {
 	// Creates the input layer with the first number from topology
-	for ( unsigned i = 0; i < topology[0]; i++ )
+	for ( unsigned int i = 0; i < topology[0]; i++ )
 	{
 		_input_layer.push_back( Node() );
 	}
@@ -37,11 +37,11 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 	_input_layer.push_back( bias );
 
 	// Creates the hidden and output layers with the rest of topology
-	for ( unsigned i = 1; i < topology.size(); i++ )
+	for ( unsigned int i = 1; i < topology.size(); i++ )
 	{
 		Layer layer;	// The layer to be added
 		// Adds a number of neurons to the layer based on topology
-		for ( unsigned j = 0; j < topology[i]; j++ )
+		for ( unsigned int j = 0; j < topology[i]; j++ )
 		{
 			// Create a new neuron with the net's eta and alpha values
 			Neuron neuron( _eta, _alpha );
@@ -51,14 +51,14 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 			if ( i == 1 )
 			{
 				// Special case for the first layer after the input layer
-				for ( unsigned k = 0; k < _input_layer.size(); k++ )
+				for ( unsigned int k = 0; k < _input_layer.size(); k++ )
 				{
 					neuron.add_connection( _input_layer[k] );
 				}
 			}
 			else
 			{
-				for ( unsigned k = 0; k < _layers.back().size(); k++ )
+				for ( unsigned int k = 0; k < _layers.back().size(); k++ )
 				{
 					neuron.add_connection( _layers.back()[k] );
 				}
@@ -81,7 +81,7 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 }
 
 // Reads in the weights and put the value in the node
-void Net::read_in_weights(string weightsFileName, vector<unsigned int> nodesPerLayer)
+void Net::read_in_weights(string weightsFileName, const vector<unsigned int> &nodesPerLayer)
 {
 	ifstream _weightsfile;
 	double currweight = 0.0;
@@ -96,14 +96,14 @@ void Net::read_in_weights(string weightsFileName, vector<unsigned int> nodesPerL
 		getline( _weightsfile, line );
 
 		// Loops through each neuron in each layer ( not bias )
-		for (int i = 0; i < _layers.size(); i++)
+		for ( unsigned int i = 0; i < _layers.size(); i++)
 		{
-			for (int j = 0; j < _layers.at(i).size() - 1; j++)
+			for ( unsigned int j = 0; j < _layers.at(i).size() - 1; j++)
 			{
 				// Gets the weight values from the file for the neuron
 				weightsPerNeuron.clear();
 				// Add one to number of nodes for the bias node' weight
-				for (int k = 0; k < nodesPerLayer.at(i) + 1; k++)
+				for ( unsigned int k = 0; k < nodesPerLayer.at(i) + 1; k++)
 				{
 					_weightsfile >> currweight;
 					weightsPerNeuron.push_back(currweight);
@@ -123,7 +123,7 @@ void Net::feed_forward( const vector<double> &inputs )
 {
 	// Set the inputs for each input node ( not bias )
 	// And clear the weight_corrections vectors
-	for ( unsigned i = 0; i < _input_layer.size() - 1; i++ )
+	for ( unsigned int i = 0; i < _input_layer.size() - 1; i++ )
 	{
 		_input_layer[i].output = inputs[i];
 		_input_layer[i].weight_corrections.clear();
@@ -131,8 +131,8 @@ void Net::feed_forward( const vector<double> &inputs )
 
 	// Loop through each neuron and call their feed_forward
 	// Skip bias neurons
-	for ( unsigned i = 0; i < _layers.size(); i++ )
-		for ( unsigned j = 0; j < _layers[i].size() - 1; j++ )
+	for ( unsigned int i = 0; i < _layers.size(); i++ )
+		for ( unsigned int j = 0; j < _layers[i].size() - 1; j++ )
 			_layers[i][j].feed_forward();
 
 	return;
@@ -148,7 +148,7 @@ void Net::back_prop( const vector<double> &expected_outputs )
 	Layer &output_layer = _layers.back();	// Reference to the last layer
 
 	// Loop through output_layer ( not bias ), setting the errors for each
-	for ( unsigned i = 0; i < output_layer.size() - 1; i++ )
+	for ( unsigned int i = 0; i < output_layer.size() - 1; i++ )
 	{
 		double delta = expected_outputs[i] - output_layer[i].output;
 		// Save the error for gradient calculations
@@ -167,7 +167,7 @@ void Net::back_prop( const vector<double> &expected_outputs )
 	// Loop through each neuron and call their back_prop
 	// Skip input layer, and bias neurons
 	for ( int i = _layers.size() - 1; i >= 0; i-- )
-		for ( unsigned j = 0; j < _layers[i].size() - 1; j++ )
+		for ( unsigned int j = 0; j < _layers[i].size() - 1; j++ )
 			_layers[i][j].back_prop();
 
 	return;
@@ -181,7 +181,7 @@ void Net::get_output( vector<double> &outputs )
 	// Fill the output vector
 	outputs.clear();
 	// Loop through the output layer ( not bias )
-	for ( unsigned i = 0; i < output_layer.size() - 1; i++ )
+	for ( unsigned int i = 0; i < output_layer.size() - 1; i++ )
 		outputs.push_back( output_layer[i].output );
 	return;
 }
@@ -210,8 +210,8 @@ void Net::set_eta( double eta )
 	_eta = eta;
 
 	// Set the _eta for each neuron in the net
-	for ( unsigned i = 0; i < _layers.size(); i++ )
-		for ( unsigned j = 0; j < _layers[i].size(); j++ )
+	for ( unsigned int i = 0; i < _layers.size(); i++ )
+		for ( unsigned int j = 0; j < _layers[i].size(); j++ )
 			_layers[i][j].set_eta( eta );
 
 	return;
@@ -229,8 +229,8 @@ void Net::set_alpha( double alpha )
 	_alpha = alpha;
 
 	// Set the _alpha for each neuron in the net
-	for ( unsigned i = 0; i < _layers.size(); i++ )
-		for ( unsigned j = 0; j < _layers[i].size(); j++ )
+	for ( unsigned int i = 0; i < _layers.size(); i++ )
+		for ( unsigned int j = 0; j < _layers[i].size(); j++ )
 			_layers[i][j].set_alpha( alpha );
 
 	return;
@@ -241,7 +241,7 @@ void Net::reset()
 {
 	// Set the output for each input node ( not bias )
 	// And clear the weight_corrections vectors
-	for ( unsigned i = 0; i < _input_layer.size() - 1; i++ )
+	for ( unsigned int i = 0; i < _input_layer.size() - 1; i++ )
 	{
 		_input_layer[i].output = 0;
 		_input_layer[i].weight_corrections.clear();
@@ -249,8 +249,8 @@ void Net::reset()
 
 	// Loop through each neuron and call their reset
 	// Skip bias neurons
-	for ( unsigned i = 0; i < _layers.size(); i++ )
-		for ( unsigned j = 0; j < _layers[i].size() - 1; j++ )
+	for ( unsigned int i = 0; i < _layers.size(); i++ )
+		for ( unsigned int j = 0; j < _layers[i].size() - 1; j++ )
 			_layers[i][j].reset();
 
 	// Clear data members for the net

@@ -67,7 +67,7 @@ Parameters::Parameters(const string ParamFileName)
 
 		//get the Number of Nodes in each layer
 		//special read because there are multiple parameters in the same line
-		for (int i = 0; i < (_numlayers + 1); i++)
+		for ( int i = 0; i < (_numlayers + 1); i++)
 		{
 			_paramfile >> param;
 			_nodesperlayer.push_back(stoi(param));
@@ -101,7 +101,7 @@ Parameters::Parameters(const string ParamFileName)
 
 		//get the class cutoffs for the burned acreage
 		while (param.empty()) param = ParseLine(_paramfile);
-		for (int i = 0; i < (_numoutputclasses - 1); i++)
+		for ( int i = 0; i < (_numoutputclasses - 1); i++)
 		{
 			_fireseveritycutoffs.push_back(stoi(param));
 			_paramfile >> param;

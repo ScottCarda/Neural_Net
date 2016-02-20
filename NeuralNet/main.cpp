@@ -32,9 +32,13 @@ int main(int argc, char* argv[])
 	cout << "Parameter file: " << params.GetParamFileName() << endl;
 	cout << "Reading data from file: " << params.GetTrainTestFileName() << endl << endl;
 
-//training(params, data.GetAllData());
-	//testing(params, data.GetAllData());
-	crossValidate(params, data.GetAllData());
+
+	vector<YearData> data_vec = data.GetAllData();
+	training(params, data_vec);
+	//data_vec = data.GetAllData();
+	//testing( params, data_vec );
+	//data_vec = data.GetAllData();
+	//crossValidate( params, data_vec );
 
 	return 0;
 }
@@ -51,8 +55,7 @@ void testing(Parameters &params, vector<YearData> &testSet)
 	double error = 0.0;		// current error of the output node
 	double avg_error = 0.0;		// average error of the net
 
-
-								// create the net
+	// create the net
 	Net ann(params.GetNodesPerLayer(), params.GetEta(), params.GetAlpha());
 
 	// read in weight file
@@ -312,7 +315,7 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 
 		}
 
-			// set the low, mid, and high bools to false
+		// set the low, mid, and high bools to false
 		low = false;
 		mid = false;
 		high = false;
@@ -399,7 +402,9 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 
 	}
 
+
 	percentCorrect = (numberCorrect / (double)cvSet.size()) * 100;
 	cout << "Overall accuracy: " << fixed << setprecision(2) << percentCorrect << " %" << endl;
+
 	return;
 }

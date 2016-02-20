@@ -50,7 +50,7 @@ void Neuron::feed_forward()
 {
 	// Gets the dot product of the input values with the weight values
 	double sum = 0;
-	for ( unsigned i = 0; i < _input.size(); i++ )
+	for ( unsigned int i = 0; i < _input.size(); i++ )
 		sum += _input[i].node->output * _input[i].weight;
 
 	// Map the summed inputs to the neuron's output
@@ -67,7 +67,7 @@ void Neuron::calc_gradient()
 {
 	// Sum the error values of the neuron
 	double sum = 0;
-	for ( unsigned i = 0; i < weight_corrections.size(); i++ )
+	for ( unsigned int i = 0; i < weight_corrections.size(); i++ )
 		sum += weight_corrections[i];
 
 	// Calculate the gradient for the neuron
@@ -82,7 +82,7 @@ void Neuron::send_weight_corrections()
 {
 	// Send weight * gradient back
 	// Skip bias neurons
-	for ( unsigned i = 0; i < _input.size() - 1; i++ )
+	for ( unsigned int i = 0; i < _input.size() - 1; i++ )
 		_input[i].node->weight_corrections.push_back(
 			_input[i].weight * _gradient );
 
@@ -95,7 +95,7 @@ void Neuron::updateWeights()
 	double new_delta;	// The amount the weight will change
 
 	// For each input to the neuron
-	for ( unsigned i = 0; i < _input.size(); i++ )
+	for ( unsigned int i = 0; i < _input.size(); i++ )
 	{
 		// Calculate the new delta weight
 		new_delta =
@@ -154,10 +154,10 @@ void Neuron::set_alpha( double alpha )
 }
 
 // Sets the weights for each of the neuron's inputs
-void Neuron::set_weight(vector<double> weights)
+void Neuron::set_weight( const vector<double> &weights )
 {
 	// Loops through each input connection on the neuron
-	for (unsigned int i = 0; i < weights.size(); i++)
+	for ( unsigned int i = 0; i < weights.size(); i++)
 		_input.at(i).weight = weights.at(i);
 
 	return;
@@ -174,7 +174,7 @@ void Neuron::reset()
 	weight_corrections.clear();
 
 	// Resets weights
-	for ( unsigned i = 0; i < _input.size(); i++ )
+	for ( unsigned int i = 0; i < _input.size(); i++ )
 	{
 		_input[i].weight = get_new_weight();
 		_input[i].delta_weight = 0;
