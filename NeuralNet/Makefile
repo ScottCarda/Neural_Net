@@ -1,4 +1,4 @@
-# Written Spring 2016 for CSC317 COA.
+# Written Spring 2016 for CSC447 Artifical Intellegece.
 
 # Usage:  make target1 target2 ...
 
@@ -10,12 +10,18 @@ CC = c++
 FLAGS = -g -std=c++11 -Wall
 
 # the build target executable:
-TARGET = ANNtrain
+TARGET = ANNtrain ANNtest CrossValidate
 
 all: $(TARGET)
 
 # specific targets
-ANNtrain:	Parameters.h Data.h Neuron.h Net.h Parameters.cpp Data.cpp Neuron.cpp Net.cpp main.cpp
+ANNtrain:	Parameters.h Data.h Neuron.h Net.h Parameters.cpp Data.cpp Neuron.cpp Net.cpp ANNtrain.cpp
+		$(CC) $(FLAGS) -o $@ $^ $(LIBS) -lm
+
+ANNtest:	Parameters.h Data.h Neuron.h Net.h Parameters.cpp Data.cpp Neuron.cpp Net.cpp ANNtest.cpp
+		$(CC) $(FLAGS) -o $@ $^ $(LIBS) -lm
+
+CrossValidate:	Parameters.h Data.h Neuron.h Net.h Parameters.cpp Data.cpp Neuron.cpp Net.cpp CrossValidate.cpp
 		$(CC) $(FLAGS) -o $@ $^ $(LIBS) -lm
 
 # utility targets
