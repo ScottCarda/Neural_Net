@@ -35,10 +35,10 @@ int main(int argc, char* argv[])
 
 	vector<YearData> data_vec = data.GetAllData();
 	training(params, data_vec);
-	//data_vec = data.GetAllData();
-	//testing( params, data_vec );
-	//data_vec = data.GetAllData();
-	//crossValidate( params, data_vec );
+	data_vec = data.GetAllData();
+	testing( params, data_vec );
+	data_vec = data.GetAllData();
+	crossValidate( params, data_vec );
 
 	return 0;
 }
