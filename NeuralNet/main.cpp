@@ -11,9 +11,9 @@
 
 using namespace std;
 
-void training( Parameters &params, vector<YearData> &trainingSet );
-void testing(Parameters &params, vector<YearData> &testSet);
-void crossValidate(Parameters &params, vector<YearData> &cvSet);
+void training( Parameters &params, vector<YearData> trainingSet );
+void testing(Parameters &params, vector<YearData> testSet);
+void crossValidate(Parameters &params, vector<YearData> cvSet);
 
 int main( int argc, char* argv[] )
 {
@@ -32,7 +32,8 @@ int main( int argc, char* argv[] )
 	cout << "Parameter file: " << params.GetParamFileName() << endl;
 	cout << "Reading data from file: " << params.GetTrainTestFileName() << endl << endl;
 
-	training( params, data.GetAllData() );
+	vector<YearData> training_data = data.GetAllData();
+	training( params, training_data );
 	//testing( params, data.GetAllData() );
 	//crossValidate(params, data.GetAllData());
 
@@ -43,7 +44,7 @@ void testing(Parameters &params, vector<YearData> &testSet)
 {
 	int numberCorrect = 0;
 	bool low, mid, high;
-	int i;
+	unsigned int i;
 	double percentCorrect;
 	Net ann(params.GetNodesPerLayer(), params.GetEta(), params.GetAlpha());
 	vector<double> outputsFromNet;
@@ -53,7 +54,7 @@ void testing(Parameters &params, vector<YearData> &testSet)
 
 	cout << "Sample, Actual, Predicted" << endl;
 
-	for (i = 0; i < testSet.size(); i++)
+	for ( i = 0; i < testSet.size(); i++ )
 	{
 		low = false;
 		mid = false;
@@ -117,7 +118,7 @@ void testing(Parameters &params, vector<YearData> &testSet)
 
 // Trains a neural net with the training set provided. The weights for the
 // trained net will be stored in the file specified by the Parameter object.
-void training( Parameters &params, vector<YearData> &trainingSet )
+void training( Parameters &params, vector<YearData> trainingSet )
 {
 	string weights_filename = params.GetWeightsFileName();
 
@@ -143,7 +144,7 @@ void training( Parameters &params, vector<YearData> &trainingSet )
 		random_shuffle( trainingSet.begin(), trainingSet.end() );
 
 		// Perform feed forward and back prop once for each record
-		for ( int j = 0; j < trainingSet.size(); j++ )
+		for ( unsigned int j = 0; j < trainingSet.size(); j++ )
 		{
 			ann.feed_forward( trainingSet[j].inputs );
 			ann.back_prop( trainingSet[j].class_outputs );
@@ -173,14 +174,13 @@ void training( Parameters &params, vector<YearData> &trainingSet )
 	return;
 }
 
-void crossValidate(Parameters &params, vector<YearData> &cvSet)
+void crossValidate(Parameters &params, vector<YearData> cvSet)
 {
 	//split cv set into training set and testing set
 	vector<YearData> trainingSet;
 	YearData testSet;
 	int numberCorrect = 0;
 	bool low, mid, high;
-	int i;
 	double percentCorrect;
 	vector<double> outputsFromNet;
 	// Get number of training epochs
@@ -190,7 +190,7 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 	double error_thresh = params.GetErrorThresh();		
 	
 	cout << "Sample, Actual, Predicted" << endl;
-	for ( int q = 0; q < cvSet.size(); q++)
+	for ( unsigned int q = 0; q < cvSet.size(); q++)
 	{
 		trainingSet = vector<YearData>(cvSet);
 		trainingSet.erase(trainingSet.begin()+q);
@@ -202,13 +202,13 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 		cout << setprecision(3);
 
 		// Epoch loop
-		for (int i = 0; i < num_epochs; i++)
+		for ( int i = 0; i < num_epochs; i++)
 		{
 			// Shuffle order of records
 			random_shuffle(trainingSet.begin(), trainingSet.end());
 
 			// Perform feed forward and back prop once for each record
-			for (int j = 0; j < trainingSet.size(); j++)
+			for ( unsigned int j = 0; j < trainingSet.size(); j++)
 			{
 				ann.feed_forward(trainingSet[j].inputs);
 				ann.back_prop(trainingSet[j].class_outputs);

@@ -10,10 +10,13 @@ CSC547 Artificial Intelligence - Spring 2016
 Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 */
 
+#ifndef __PARAMETERS__H__
+#define __PARAMETERS__H__
+
 /******************************************************************************/
 /*                                Include Files                               */
 /******************************************************************************/
-#pragma once
+
 #include <string>
 #include <vector>
 #include <sstream>
@@ -70,3 +73,4 @@ private:
 
 };
 
+#endif
