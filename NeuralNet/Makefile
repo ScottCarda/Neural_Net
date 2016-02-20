@@ -5,7 +5,7 @@
 #-----------------------------------------------------------------------
 
 # GNU C/C++ compiler and linker:
-CC = g++
+CC = c++
 # LIBS = -lpthread
 FLAGS = -g -std=c++11 -Wall
 

@@ -20,7 +20,7 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 // Provides weight values for new connections
 double Neuron::get_new_weight()
 {
-	double scale_value = ( RAND_MAX + 1 ) / 4.0;
+	double scale_value = ( RAND_MAX ) / 4.0;
 	return double( rand() ) / scale_value - 2;
 }
 
@@ -99,13 +99,9 @@ void Neuron::updateWeights()
 	{
 		// Calculate the new delta weight
 		new_delta =
-			_eta
-			//* transform_derivative( _input[i].node->output )
-			* _input[i].node->output
-			* _gradient
+			_eta * _input[i].node->output * _gradient
 			+
-			_alpha
-			* _input[i].delta_weight;
+			_alpha * _input[i].delta_weight;
 		// Store this as the old delta weight
 		_input[i].delta_weight = new_delta;
 		// Update weight
