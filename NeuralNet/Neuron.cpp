@@ -9,9 +9,11 @@ CSC547 Artificial Intelligence - Spring 2016
 Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 */
 
-// include file
+/******************************************************************************/
+/*                                Include Files                               */
+/******************************************************************************/
+
 #include "Neuron.h"
-#include <iostream>
 
 /******************************************************************************/
 /*                       Neuron Class Member Functions                        */

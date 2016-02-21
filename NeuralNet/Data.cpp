@@ -1,5 +1,5 @@
 /*
-***** Net.cpp *****
+                    ***** Data.cpp *****
 
 This file contains the definitions for the Data class's member functions. See
 the Data.h file for a description of the class.
@@ -12,6 +12,7 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 /******************************************************************************/
 /*                                Include Files                               */
 /******************************************************************************/
+
 #include "Data.h"
 
 /******************************************************************************/

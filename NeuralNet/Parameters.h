@@ -1,5 +1,5 @@
 /*
-***** Parameters.h *****
+                    ***** Parameters.h *****
 
 Contains the definitions for the Parameters class. The Parameters class contains
 all the information included in the Parameter.prm file. The variables in this class
@@ -17,17 +17,16 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 /*                                Include Files                               */
 /******************************************************************************/
 
-#include <string>
-#include <vector>
-#include <sstream>
 #include <fstream>
 #include <iostream>
-
+#include <string>
+#include <vector>
 using namespace std;
 
 /******************************************************************************/
 /*                          Parameters Class Definition                       */
 /******************************************************************************/
+
 class Parameters
 {
 public:

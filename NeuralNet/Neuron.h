@@ -19,12 +19,11 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 /******************************************************************************/
 
 #include <cmath>
-#include <vector>
-#include <string>
-#include <fstream>
 #include <ctime>
+#include <fstream>
+#include <string>
+#include <vector>
 using namespace std;
-
 
 /******************************************************************************/
 /*                               Node Definition                              */

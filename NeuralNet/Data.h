@@ -1,5 +1,5 @@
 /*
-***** Data.h *****
+                    ***** Data.h *****
 
 Contains the definitions for the Data class. The Data class will read in all the
 testing and training data when an instance of the Data class is constructed. If the
@@ -10,21 +10,24 @@ CSC547 Artificial Intelligence - Spring 2016
 Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 */
 
+#ifndef __DATA__H__
+#define __DATA__H__
+
 /******************************************************************************/
 /*                                Include Files                               */
 /******************************************************************************/
+
+#include <algorithm>
+#include <fstream>
+#include <iostream>
 #include <string>
 #include <vector>
-#include <sstream>
-#include <fstream>
-#include <algorithm> 
-#include <iostream>
-
 using namespace std;
 
 /******************************************************************************/
 /*                            YearData Definition                             */
 /******************************************************************************/
+
 struct YearData
 {
 	int year;
@@ -36,6 +39,7 @@ struct YearData
 /******************************************************************************/
 /*                               Data Definition                              */
 /******************************************************************************/
+
 class Data
 {
 public:
@@ -51,3 +55,5 @@ private:
 	//storage of all potential data sets
 	vector<YearData> _data;
 };
+
+#endif

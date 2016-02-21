@@ -1,5 +1,5 @@
 /*
-***** Net.cpp *****
+                    ***** Parameters.cpp *****
 
 This file contains the definitions for the Parameters class's member functions. See
 the Parameters.h file for a description of the class.
@@ -12,6 +12,7 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 /******************************************************************************/
 /*                                Include Files                               */
 /******************************************************************************/
+
 #include "Parameters.h"
 
 /******************************************************************************/

@@ -1,40 +1,71 @@
-#include <ctime>
-#include <string>
-#include <vector>
-#include <iostream>
-#include <fstream>
-#include <iomanip>
-#include <stdlib.h>
+/*
+                    ***** ANNtrain.cpp *****
+
+This file is the entry point for the ANNtest program. It contains the
+definition for the main function as well as the testing function, which
+carries out the algorithm for performing testing on a neural net.
+
+
+
+CSC547 Artificial Intelligence - Spring 2016
+
+Author: Hannah Aker, Scott Carda, Cassidy Vollmer
+*/
+
+/******************************************************************************/
+/*                                Include Files                               */
+/******************************************************************************/
+
 #include "Data.h"
 #include "Net.h"
 #include "Parameters.h"
 
-using namespace std;
+#include <iomanip>
 
+/******************************************************************************/
+/*                             Function Prototypes                            */
+/******************************************************************************/
+
+// Tests a neural net with the testing set provided.
 void testing( Parameters &params, vector<YearData> &testSet );
 
+/******************************************************************************/
+/*                               Main Function                                */
+/******************************************************************************/
+
+// The entry point of the program.
 int main( int argc, char* argv[] )
 {
+	// Ensure proper usage
 	if ( argc != 2 )
 	{
-		cout << "Usage: ANNtest <parameterfile>\n"
+		cout << "Usage: CrossValidate <parameterfile>\n"
 			<< "\tparameterfile: The filename for the parameter file."
 			<< endl;
 		return -1;
 	}
 
+	// Parse the parameter file
 	Parameters params = Parameters( argv[1] );
+
+	// Get and preprocess the data
 	Data data = Data( params.GetTrainTestFileName(), params.GetNumYearsBurnedAcreage(),
 		params.GetNumMonthsPDSI(), params.GetEndMonthCurrYear(), params.GetFireSeverityCutoffs() );
 
+	// Print out file information
 	cout << "Parameter file: " << params.GetParamFileName() << endl;
 	cout << "Reading data from file: " << params.GetTrainTestFileName() << endl << endl;
 
+	// Perform testing on the data
 	vector<YearData> data_vec = data.GetAllData();
 	testing( params, data_vec );
 
 	return 0;
 }
+
+/******************************************************************************/
+/*                              Testing Function                              */
+/******************************************************************************/
 
 // Tests a neural net with the testing set provided.
 void testing( Parameters &params, vector<YearData> &testSet )
