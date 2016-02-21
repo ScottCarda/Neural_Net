@@ -1,0 +1,4 @@
+# Delare files that will always have LF line endings on checkout.
+*.c text eol=lf
+*.cpp text eol=lf
+*.h text eol=lf
