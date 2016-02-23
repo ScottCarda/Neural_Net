@@ -5,7 +5,19 @@ This file is the entry point for the ANNtest program. It contains the
 definition for the main function as well as the testing function, which
 carries out the algorithm for performing testing on a neural net.
 
-
+This file starts in main. It checks to make sure there is a correct number
+of command line arguments, and outputs and error is it doesn't. The main
+function then retrieves the parameter file information and the test data.
+The main then calls the testing function. The testing function starts by
+creating the nueral net and reading in the weights. Next the function 
+goes through each test set and performs the feed forward and gets the output.
+The file then outputs the run number, the actual output and then the predicted
+output. If the actual and the predicted don't match then the testing function
+outputs a * to inform the user of the difference. While going through each
+test set the testing function calculates the RMS error and keeps track of
+the number of correct predictions. After the testing function finishes all 
+the test sets it outputs the average RMS error and the accuracy of this test
+run.
 
 CSC547 Artificial Intelligence - Spring 2016
 
@@ -103,28 +115,28 @@ void testing( Parameters &params, vector<YearData> &testSet )
 		ann.get_output( outputsFromNet );
 
 		// output the sample
-		cout << i << ", ";
+		cout << setw(3) << (i+1) << ", ";
 
 		// if the actual fire severity was mid
 		if ( testSet[i].actualburnedacres > params.GetFireSeverityCutoffs().at( 0 ) &&
 			testSet[i].actualburnedacres < params.GetFireSeverityCutoffs().at( 1 ) )
 		{
 			// output the mid
-			cout << "010, ";
+			cout << setw(10) <<"010, ";
 			mid = true;
 		}
 		// if the actual fire severity was high
 		else if ( testSet[i].actualburnedacres > params.GetFireSeverityCutoffs().at( 1 ) )
 		{
 			// output the high
-			cout << "001, ";
+			cout << setw(10) << "001, ";
 			high = true;
 		}
 		// if the acutal fire severity was low
 		else
 		{
 			// output the low
-			cout << "100, ";
+			cout << setw(10) << "100, ";
 			low = true;
 		}
 
@@ -133,7 +145,7 @@ void testing( Parameters &params, vector<YearData> &testSet )
 			outputsFromNet.at( 0 ) > outputsFromNet.at( 2 ) )
 		{
 			// output low
-			cout << "100";
+			cout << setw(7) << "100";
 
 			// if it predicted correctly increment the count
 			if ( low )
@@ -147,7 +159,7 @@ void testing( Parameters &params, vector<YearData> &testSet )
 			outputsFromNet.at( 1 ) > outputsFromNet.at( 2 ) )
 		{
 			// output mid
-			cout << "010";
+			cout << setw(7) << "010";
 
 			// if it predicted correctly increment the count
 			if ( mid )
@@ -160,7 +172,7 @@ void testing( Parameters &params, vector<YearData> &testSet )
 		else
 		{
 			// output high
-			cout << "001";
+			cout << setw(7) << "001";
 
 			// if it predicted correctly increment the count
 			if ( high )
