@@ -33,6 +33,8 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 /*                             Function Prototypes                            */
 /******************************************************************************/
 
+// Pulls out a year of data for testing, trains with remaining data, and repeats
+// with all years of data.
 void crossValidate( Parameters &params, vector<YearData> &cvSet );
 
 /******************************************************************************/
