@@ -1,5 +1,5 @@
 /*
-                    ***** ANNtrain.cpp *****
+                    ***** ANNtest.cpp *****
 
 This file is the entry point for the ANNtest program. It contains the
 definition for the main function as well as the testing function, which

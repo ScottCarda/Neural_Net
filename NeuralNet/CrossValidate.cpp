@@ -66,6 +66,7 @@ int main( int argc, char* argv[] )
 /******************************************************************************/
 /*                          Cross Validation Function                         */
 /******************************************************************************/
+
 void crossValidate(Parameters &params, vector<YearData> &cvSet)
 {
 	//split cv set into training set and testing set
