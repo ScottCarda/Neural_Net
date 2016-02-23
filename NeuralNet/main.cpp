@@ -282,6 +282,8 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 
 	// Get error threshold for stopping
 	double error_thresh = params.GetErrorThresh();
+	double avg_error;
+	string break_error_thresh;
 
 	cout << "Year, Burned, Actual, Predicted (training error)" << endl;
 
@@ -290,6 +292,7 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 		trainingSet = vector<YearData>(cvSet);
 		trainingSet.erase(trainingSet.begin() + q);
 		testSet = YearData(cvSet.at(q));
+		break_error_thresh.clear();
 		// Create a neural net
 		Net ann(params.GetNodesPerLayer(), params.GetEta(), params.GetAlpha());
 
@@ -311,9 +314,12 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 
 			// Stop if error threshold is reached
 			if (ann.get_avg_error() < error_thresh)
+			{
+				break_error_thresh = " Reached error threshold at epoch " + i;
 				break;
-
+			}
 		}
+		avg_error = ann.get_avg_error;
 
 		// set the low, mid, and high bools to false
 		low = false;
@@ -398,7 +404,7 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 				cout << setw(9) << right << "001, *";
 		}
 
-		cout << "          (" << ann.get_avg_error() << ")" << endl;
+		cout << "          (" << avg_error << ")" << break_error_thresh << endl;
 
 	}
 
