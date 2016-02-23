@@ -319,7 +319,7 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 				break;
 			}
 		}
-		avg_error = ann.get_avg_error;
+		avg_error = ann.get_avg_error();
 
 		// set the low, mid, and high bools to false
 		low = false;
