@@ -22,8 +22,8 @@ Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 // Constructor for neural net class
 Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 	:
-	_eta( eta ),
 	_alpha( alpha ),
+	_eta( eta ),
 	_error( 0.0 ),
 	_avg_error( 0.0 ),
 	_back_prop_count( 0 )
@@ -83,64 +83,6 @@ Net::Net( const vector<unsigned> &topology, double eta, double alpha )
 	srand( time( NULL ) );
 }
 
-// Reads in the weights and put the value in the node
-void Net::read_in_weights(string weightsFileName, const vector<unsigned int> &nodesPerLayer)
-{
-	ifstream _weightsfile;
-	double currweight = 0.0;
-	vector<double> weightsPerNeuron;
-
-	_weightsfile.open(weightsFileName);
-
-	if (_weightsfile.is_open())
-	{
-		// Skip the header information
-		string line;
-		getline( _weightsfile, line );
-
-		// Loops through each neuron in each layer ( not bias )
-		for ( unsigned int i = 0; i < _layers.size(); i++)
-		{
-			for ( unsigned int j = 0; j < _layers.at(i).size() - 1; j++)
-			{
-				// Gets the weight values from the file for the neuron
-				weightsPerNeuron.clear();
-				// Add one to number of nodes for the bias node' weight
-				for ( unsigned int k = 0; k < nodesPerLayer.at(i) + 1; k++)
-				{
-					_weightsfile >> currweight;
-					weightsPerNeuron.push_back(currweight);
-				}
-				// Gives the new weights to the neuron
-				_layers.at(i).at(j).set_weight(weightsPerNeuron);
-			}
-		}
-		_weightsfile.close();
-	}
-	return;
-}
-
-// Sets the output values of the output layer given an
-// input vector based on the net's weighted connections
-void Net::feed_forward( const vector<double> &inputs )
-{
-	// Set the inputs for each input node ( not bias )
-	// And clear the weight_corrections vectors
-	for ( unsigned int i = 0; i < _input_layer.size() - 1; i++ )
-	{
-		_input_layer[i].output = inputs[i];
-		_input_layer[i].weight_corrections.clear();
-	}
-
-	// Loop through each neuron and call their feed_forward
-	// Skip bias neurons
-	for ( unsigned int i = 0; i < _layers.size(); i++ )
-		for ( unsigned int j = 0; j < _layers[i].size() - 1; j++ )
-			_layers[i][j].feed_forward();
-
-	return;
-}
-
 // Trains the net's weighted connections by comparing
 // the output values with the expected output
 void Net::back_prop( const vector<double> &expected_outputs )
@@ -176,23 +118,31 @@ void Net::back_prop( const vector<double> &expected_outputs )
 	return;
 }
 
-// Fills the vector argument with the output values of the net
-void Net::get_output( vector<double> &outputs )
+// Sets the output values of the output layer given an
+// input vector based on the net's weighted connections
+void Net::feed_forward( const vector<double> &inputs )
 {
-	Layer &output_layer = _layers.back();	// Reference to the last layer
+	// Set the inputs for each input node ( not bias )
+	// And clear the weight_corrections vectors
+	for ( unsigned int i = 0; i < _input_layer.size() - 1; i++ )
+	{
+		_input_layer[i].output = inputs[i];
+		_input_layer[i].weight_corrections.clear();
+	}
 
-	// Fill the output vector
-	outputs.clear();
-	// Loop through the output layer ( not bias )
-	for ( unsigned int i = 0; i < output_layer.size() - 1; i++ )
-		outputs.push_back( output_layer[i].output );
+	// Loop through each neuron and call their feed_forward
+	// Skip bias neurons
+	for ( unsigned int i = 0; i < _layers.size(); i++ )
+		for ( unsigned int j = 0; j < _layers[i].size() - 1; j++ )
+			_layers[i][j].feed_forward();
+
 	return;
 }
 
-// Getter for _error
-double Net::get_error()
+// Getter for _alpha
+double Net::get_alpha()
 {
-	return _error;
+	return _alpha;
 }
 
 // Getter for _avg_error
@@ -207,69 +157,22 @@ double Net::get_eta()
 	return _eta;
 }
 
-// Setter for _eta
-void Net::set_eta( double eta )
+// Getter for _error
+double Net::get_error()
 {
-	_eta = eta;
-
-	// Set the _eta for each neuron in the net
-	for ( unsigned int i = 0; i < _layers.size(); i++ )
-		for ( unsigned int j = 0; j < _layers[i].size(); j++ )
-			_layers[i][j].set_eta( eta );
-
-	return;
+	return _error;
 }
 
-// Getter for _alpha
-double Net::get_alpha()
+// Fills the vector argument with the output values of the net
+void Net::get_output( vector<double> &outputs )
 {
-	return _alpha;
-}
+	Layer &output_layer = _layers.back();	// Reference to the last layer
 
-// Setter for _alpha
-void Net::set_alpha( double alpha )
-{
-	_alpha = alpha;
-
-	// Set the _alpha for each neuron in the net
-	for ( unsigned int i = 0; i < _layers.size(); i++ )
-		for ( unsigned int j = 0; j < _layers[i].size(); j++ )
-			_layers[i][j].set_alpha( alpha );
-
-	return;
-}
-
-// Sets the state of the net a new net
-void Net::reset()
-{
-	// Set the output for each input node ( not bias )
-	// And clear the weight_corrections vectors
-	for ( unsigned int i = 0; i < _input_layer.size() - 1; i++ )
-	{
-		_input_layer[i].output = 0;
-		_input_layer[i].weight_corrections.clear();
-	}
-
-	// Loop through each neuron and call their reset
-	// Skip bias neurons
-	for ( unsigned int i = 0; i < _layers.size(); i++ )
-		for ( unsigned int j = 0; j < _layers[i].size() - 1; j++ )
-			_layers[i][j].reset();
-
-	// Clear data members for the net
-	_error = 0.0;
-	_avg_error = 0.0;
-	_back_prop_count = 0;
-
-	return;
-}
-
-// Resets the running average error for the net
-void Net::reset_avg_error()
-{
-	_avg_error = 0.0;
-	_back_prop_count = 0.0;
-
+	// Fill the output vector
+	outputs.clear();
+	// Loop through the output layer ( not bias )
+	for ( unsigned int i = 0; i < output_layer.size() - 1; i++ )
+		outputs.push_back( output_layer[i].output );
 	return;
 }
 
@@ -305,6 +208,107 @@ void Net::print_weights( string filename )
 	fout << endl;
 
 	fout.close();
+
+	return;
+}
+
+// Reads in the weights and put the value in the node
+// Returns false if the weights file could not be opened
+bool Net::read_in_weights( string weightsFileName, const vector<unsigned int> &nodesPerLayer )
+{
+	ifstream _weightsfile;
+	double currweight = 0.0;
+	vector<double> weightsPerNeuron;
+
+	_weightsfile.open( weightsFileName );
+
+	if ( _weightsfile.is_open() )
+	{
+		// Skip the header information
+		string line;
+		getline( _weightsfile, line );
+
+		// Loops through each neuron in each layer ( not bias )
+		for ( unsigned int i = 0; i < _layers.size(); i++ )
+		{
+			for ( unsigned int j = 0; j < _layers.at( i ).size() - 1; j++ )
+			{
+				// Gets the weight values from the file for the neuron
+				weightsPerNeuron.clear();
+				// Add one to number of nodes for the bias node' weight
+				for ( unsigned int k = 0; k < nodesPerLayer.at( i ) + 1; k++ )
+				{
+					_weightsfile >> currweight;
+					weightsPerNeuron.push_back( currweight );
+				}
+				// Gives the new weights to the neuron
+				_layers.at( i ).at( j ).set_weight( weightsPerNeuron );
+			}
+		}
+		_weightsfile.close();
+
+		return true;
+	}
+
+	return false;
+}
+
+// Resets the running average error for the net
+void Net::reset_avg_error()
+{
+	_avg_error = 0.0;
+	_back_prop_count = 0.0;
+
+	return;
+}
+
+// Sets the state of the net a new net
+void Net::reset()
+{
+	// Set the output for each input node ( not bias )
+	// And clear the weight_corrections vectors
+	for ( unsigned int i = 0; i < _input_layer.size() - 1; i++ )
+	{
+		_input_layer[i].output = 0;
+		_input_layer[i].weight_corrections.clear();
+	}
+
+	// Loop through each neuron and call their reset
+	// Skip bias neurons
+	for ( unsigned int i = 0; i < _layers.size(); i++ )
+		for ( unsigned int j = 0; j < _layers[i].size() - 1; j++ )
+			_layers[i][j].reset();
+
+	// Clear data members for the net
+	_error = 0.0;
+	_avg_error = 0.0;
+	_back_prop_count = 0;
+
+	return;
+}
+
+// Setter for _alpha
+void Net::set_alpha( double alpha )
+{
+	_alpha = alpha;
+
+	// Set the _alpha for each neuron in the net
+	for ( unsigned int i = 0; i < _layers.size(); i++ )
+		for ( unsigned int j = 0; j < _layers[i].size(); j++ )
+			_layers[i][j].set_alpha( alpha );
+
+	return;
+}
+
+// Setter for _eta
+void Net::set_eta( double eta )
+{
+	_eta = eta;
+
+	// Set the _eta for each neuron in the net
+	for ( unsigned int i = 0; i < _layers.size(); i++ )
+		for ( unsigned int j = 0; j < _layers[i].size(); j++ )
+			_layers[i][j].set_eta( eta );
 
 	return;
 }

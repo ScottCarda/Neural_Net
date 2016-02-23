@@ -80,7 +80,7 @@ Parameters::Parameters(const string ParamFileName)
 		_traintestfilename = param;
 		param.clear();
 
-		//get the number of burned acerage to train with 
+		//get the number of burned acreage to train with 
 		while (param.empty()) param = ParseLine(_paramfile);
 		_numyearsburnedacreage = stoi(param);
 		param.clear();

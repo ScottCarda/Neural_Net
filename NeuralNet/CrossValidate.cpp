@@ -159,7 +159,7 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 			cout << setw(8) << right << "001, ";
 			high = true;
 		}
-		// if the acutal fire severity was low
+		// if the actual fire severity was low
 		else
 		{
 			// output the low
@@ -198,7 +198,7 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 			else
 				cout << setw(9) << right << "010, *";
 		}
-		// if high fire severity is predcted
+		// if high fire severity is predicted
 		else
 		{
 			// if it predicted correctly increment the count

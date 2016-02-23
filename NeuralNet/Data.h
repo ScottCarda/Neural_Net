@@ -30,10 +30,11 @@ using namespace std;
 
 struct YearData
 {
-	int year;
 	int actualburnedacres;
-	vector<double> class_outputs; //corresponding to mild, moderate, severe fire danger
+	//corresponding to mild, moderate, severe fire danger
+	vector<double> class_outputs;
 	vector<double> inputs;
+	int year;
 };
 
 /******************************************************************************/

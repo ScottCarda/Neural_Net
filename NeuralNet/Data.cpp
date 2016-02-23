@@ -35,7 +35,7 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 		getline(_traintestfile, line);
 		getline(_traintestfile, line);
 
-		//year is one line of data from the file (year, burned acerage, and 12 months of PDSI data)
+		//year is one line of data from the file (year, burned acreage, and 12 months of PDSI data)
 		//years contains all the data in the file, in the order that it's presented in the file
 		vector<vector<double>> years;
 		vector<double> year;
@@ -89,18 +89,18 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 			}
 		}
 
-		//determine the first year with a full set of the data specified in the paramaters file
+		//determine the first year with a full set of the data specified in the parameters file
 		int startyear;
-		//if there are more years of PDSI data than years of burned acerage
+		//if there are more years of PDSI data than years of burned acreage
 		if ((NumMonthsPDSI / 12) > NumYearsBurnedAcerage)
 			//start in where the PDSI data has enough prior data
 			startyear = NumMonthsPDSI / 12;
 		else
-			//else start where the burned acerage has enough prior data
+			//else start where the burned acreage has enough prior data
 			startyear = NumYearsBurnedAcerage;
 
 		//loop through the years, and create sets of data,
-		//including the year as an indentifier, the expected output and a vector of inputs
+		//including the year as an identifier, the expected output and a vector of inputs
 		for ( unsigned int i = startyear; i < years.size(); i++)
 		{
 			//set the year and actual burned acres
@@ -108,7 +108,7 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 			set.year = years[i][0];
 			set.actualburnedacres = years[i][1];
 
-			//determine which output class the actual burned acerage falls in
+			//determine which output class the actual burned acreage falls in
 			set.class_outputs.push_back(0);
 			set.class_outputs.push_back(0);
 			set.class_outputs.push_back(0);
@@ -123,7 +123,7 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 			else
 				set.class_outputs[2] = 1;
 
-			//push back normalized previous years' burned acerage
+			//push back normalized previous years' burned acreage
 			//j corresponds to which previous year to go to, 
 			//first add the year immediately prior, then the next year back, etc.
 			for ( int j = 0; j < NumYearsBurnedAcerage; j++)
@@ -144,7 +144,7 @@ Data::Data(const string TrainTestDataFileName, const int NumYearsBurnedAcerage,
 				//if we've hit the beginning of the year (index 2), go to the end of the previous year
 				if (k <= 2)
 				{
-					//december of previous year (index 13)
+					//December of previous year (index 13)
 					k = 13;
 					//step back a year
 					l = l - 1;

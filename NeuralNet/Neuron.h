@@ -74,22 +74,22 @@ public:
 	~Neuron() {};
 
 	void add_connection( Node &node );
-	void feed_forward();
 	void back_prop();
-	void reset();
-	void print_weights( ofstream &fout );
-	double get_eta();
-	void set_eta( double eta );
+	void feed_forward();
 	double get_alpha();
+	double get_eta();
+	void print_weights( ofstream &fout );
+	void reset();
 	void set_alpha( double alpha );
+	void set_eta( double eta );
 	void set_weight( const vector<double> &weights );
 
 private:
-	static double get_new_weight();
-	static double transform( double val );
-	static double transform_derivative( double val );
 	void calc_gradient();
+	static double get_new_weight();
 	void send_weight_corrections();
+	static double transform_derivative( double val );
+	static double transform( double val );
 	void updateWeights();
 
 	// The vector of inputs to the neuron, containing the

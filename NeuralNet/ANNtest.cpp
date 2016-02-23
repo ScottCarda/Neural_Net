@@ -9,7 +9,7 @@ This file starts in main. It checks to make sure there is a correct number
 of command line arguments, and outputs and error is it doesn't. The main
 function then retrieves the parameter file information and the test data.
 The main then calls the testing function. The testing function starts by
-creating the nueral net and reading in the weights. Next the function 
+creating the neural net and reading in the weights. Next the function 
 goes through each test set and performs the feed forward and gets the output.
 The file then outputs the run number, the actual output and then the predicted
 output. If the actual and the predicted don't match then the testing function
@@ -95,7 +95,12 @@ void testing( Parameters &params, vector<YearData> &testSet )
 	Net ann( params.GetNodesPerLayer(), params.GetEta(), params.GetAlpha() );
 
 	// read in weight file
-	ann.read_in_weights( params.GetWeightsFileName(), params.GetNodesPerLayer() );
+	if ( !ann.read_in_weights( params.GetWeightsFileName(), params.GetNodesPerLayer() ) )
+	{
+		cout << "ERROR: Could not open weight file "
+			 << params.GetWeightsFileName() << endl;
+		return;
+	}
 
 	// output the type of format
 	cout << "Sample, Actual, Predicted" << endl;
@@ -132,7 +137,7 @@ void testing( Parameters &params, vector<YearData> &testSet )
 			cout << setw(10) << "001, ";
 			high = true;
 		}
-		// if the acutal fire severity was low
+		// if the actual fire severity was low
 		else
 		{
 			// output the low
@@ -168,7 +173,7 @@ void testing( Parameters &params, vector<YearData> &testSet )
 			else
 				cout << ", *";
 		}
-		// if high fire severity is predcted
+		// if high fire severity is predicted
 		else
 		{
 			// output high
