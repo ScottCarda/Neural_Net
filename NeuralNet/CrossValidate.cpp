@@ -5,7 +5,14 @@ This file is the entry point for the CrossValidate program. It contains the
 definition for the main function as well as the crossValidate function, which
 carries out the algorithm for performing cross validation using a neural net.
 
-
+Cross Validation is done via a combination of the testing and training functions.
+The Cross Validation function enters a loop, looping through all years of data that
+contain a full set of input data. In this loop, one year is pulled out of the 
+vector of training data and reserved for testing. The neural net is trained with the
+training data, and then tested with the year of data that was reserved for testing.
+Each iteration of the loop repeats the process with a different year pulled from
+training and reserved for testing. See the ANN Testing and ANN Training files for a full
+description of the testing and training processes.
 
 CSC547 Artificial Intelligence - Spring 2016
 
