@@ -12,7 +12,6 @@ CSC547 Artificial Intelligence - Spring 2016
 Author: Hannah Aker, Scott Carda, Cassidy Vollmer
 */
 
-
 /******************************************************************************/
 /*                                Include Files                               */
 /******************************************************************************/
