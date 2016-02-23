@@ -37,8 +37,8 @@ int main(int argc, char* argv[])
 	training(params, data_vec);
 	data_vec = data.GetAllData();
 	testing( params, data_vec );
-	data_vec = data.GetAllData();
-	crossValidate( params, data_vec );
+	//data_vec = data.GetAllData();
+	//crossValidate( params, data_vec );
 
 	return 0;
 }

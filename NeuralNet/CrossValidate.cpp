@@ -202,7 +202,10 @@ void crossValidate(Parameters &params, vector<YearData> &cvSet)
 				cout << setw(9) << right << "001, *";
 		}
 
-		cout << "          (" << avg_error << ")" << break_error_thresh << endl;
+		cout << "          (" << avg_error << ")" ;
+		if (!break_error_thresh.empty())
+			cout << break_error_thresh;
+		cout << endl;
 
 	}
 
