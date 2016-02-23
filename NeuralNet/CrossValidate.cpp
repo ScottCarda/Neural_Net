@@ -74,6 +74,8 @@ int main( int argc, char* argv[] )
 /*                          Cross Validation Function                         */
 /******************************************************************************/
 
+// Pulls out a year of data for testing, trains with remaining data, and repeats
+// with all years of data.
 void crossValidate(Parameters &params, vector<YearData> &cvSet)
 {
 	//split cv set into training set and testing set
